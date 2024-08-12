@@ -1,12 +1,12 @@
-class Task {
-  final String id;
+class CreateTaskRequest {
+  final String calendarId;
   final String name;
   final DateTime dueDate;
   final double workRemaining;
   final double percentOfGrade;
 
-  const Task({
-    required this.id,
+  const CreateTaskRequest({
+    required this.calendarId,
     required this.name,
     required this.dueDate,
     required this.workRemaining,

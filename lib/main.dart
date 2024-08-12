@@ -1,5 +1,4 @@
-import 'package:calendar_v2/modules/user/login/login_view.dart';
-import 'package:calendar_v2/routes.dart';
+import 'package:calendar_v2/router.dart';
 import 'package:calendar_v2/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -12,9 +11,9 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       theme: theme,
-      routes: routes,
+      routerConfig: router,
     );
   }
 }

@@ -1,3 +1,9 @@
+import 'package:calendar_v2/dtos/create_calendar_request.dart';
+import 'package:calendar_v2/dtos/create_task_request.dart';
+import 'package:calendar_v2/dtos/delete_calendar_request.dart';
+import 'package:calendar_v2/dtos/delete_task_request.dart';
+import 'package:calendar_v2/dtos/update_calendar_request.dart';
+import 'package:calendar_v2/dtos/update_task_request.dart';
 import 'package:calendar_v2/models/calendar.dart';
 import 'package:calendar_v2/models/task.dart';
 import 'package:calendar_v2/models/user.dart';
@@ -28,24 +34,49 @@ class DataHandler {
   }
 
   // Calendar Operations
-  void createCalendar() {}
+  void createCalendar(CreateCalendarRequest request) {
+    _server.createCalendar(request);
+    _reloadLoggedInUser();
+  }
 
   List<Calendar> getCalendars() {
     return currentUser!.calendars;
   }
 
-  void updateCalendar() {}
-
-  void deleteCalendar() {}
-
-  // Task Operations
-  void createTask() {}
-
-  List<Task> getFilteredTasks() {
-    return currentUser!.calendars.expand((c) => c.tasks).toList();
+  void updateCalendar(UpdateCalendarRequest request) {
+    _server.updateCalendar(request);
+    _reloadLoggedInUser();
   }
 
-  void updateTask() {}
+  void deleteCalendar(DeleteCalendarRequest request) {
+    _server.deleteCalendar(request);
+    _reloadLoggedInUser();
+  }
 
-  void deleteTask() {}
+  // Task Operations
+  void createTask(CreateTaskRequest request) {
+    _server.createTask(request);
+    _reloadLoggedInUser();
+  }
+
+  List<Task> getFilteredTasks(Set<String> calendarIdsToHide) {
+    return currentUser!.calendars
+        .where((c) => !calendarIdsToHide.contains(c.id))
+        .expand((c) => c.tasks)
+        .toList();
+  }
+
+  void updateTask(UpdateTaskRequest request) {
+    _server.updateTask(request);
+    _reloadLoggedInUser();
+  }
+
+  void deleteTask(DeleteTaskRequest request) {
+    _server.deleteTask(request);
+    _reloadLoggedInUser();
+  }
+
+  void _reloadLoggedInUser() {
+    currentUser = _server.getLoggedInUser();
+  }
 }

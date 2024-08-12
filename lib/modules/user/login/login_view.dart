@@ -1,5 +1,6 @@
 import 'package:calendar_v2/modules/user/login/login_presenter.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginView extends StatelessWidget {
   final LoginPresenter _presenter = LoginPresenter();
@@ -14,7 +15,7 @@ class LoginView extends StatelessWidget {
         child: FilledButton(
           onPressed: () {
             _presenter.login();
-            Navigator.pushReplacementNamed(context, '/tasks/calendar');
+            context.go('/tasks/calendar');
           },
           child: const Text("Login"),
         ),
