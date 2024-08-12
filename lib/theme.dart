@@ -10,4 +10,7 @@ var theme = ThemeData(
   filledButtonTheme: FilledButtonThemeData(
     style: FilledButton.styleFrom(backgroundColor: Colors.blue),
   ),
+  iconButtonTheme: IconButtonThemeData(
+    style: IconButton.styleFrom(visualDensity: VisualDensity.compact),
+  ),
 );

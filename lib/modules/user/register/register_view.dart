@@ -15,7 +15,7 @@ class RegisterView extends StatelessWidget {
         child: FilledButton(
           onPressed: () {
             _presenter.register();
-            context.go('/tasks/register');
+            context.go('/tasks/calendar');
           },
           child: const Text("Register"),
         ),
