@@ -1,7 +1,7 @@
 import 'package:calendar_v2/models/calendar.dart';
 import 'package:calendar_v2/models/task.dart';
 import 'package:calendar_v2/models/user.dart';
-import 'package:calendar_v2/server.dart';
+import 'package:calendar_v2/data/server.dart';
 
 class DataHandler {
   static final DataHandler _instance = DataHandler._();

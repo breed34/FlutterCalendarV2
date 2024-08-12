@@ -1,4 +1,4 @@
-import 'package:calendar_v2/data_handler/data_handler.dart';
+import 'package:calendar_v2/data/data_handler.dart';
 
 class UserService {
   final DataHandler _dataHandler = DataHandler();
