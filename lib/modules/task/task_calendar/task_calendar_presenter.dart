@@ -1,4 +1,3 @@
-import 'package:calendar_v2/models/task.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 

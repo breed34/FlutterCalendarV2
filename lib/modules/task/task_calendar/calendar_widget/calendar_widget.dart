@@ -76,7 +76,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   }
 
   Border _getTableBorder(List list, Object item) {
-    BorderSide leftBorder = const BorderSide(color: Colors.grey);
+    BorderSide leftBorder = BorderSide(color: Colors.grey[400]!);
 
     if (item == list.first) {
       leftBorder = BorderSide.none;
@@ -84,7 +84,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
 
     return Border(
       left: leftBorder,
-      top: const BorderSide(color: Colors.grey),
+      top: BorderSide(color: Colors.grey[400]!),
     );
   }
 }

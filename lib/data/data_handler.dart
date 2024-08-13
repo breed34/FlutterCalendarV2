@@ -13,7 +13,7 @@ class DataHandler {
   static final DataHandler _instance = DataHandler._();
 
   final Server _server = Server();
-  late User? currentUser;
+  User? currentUser;
 
   DataHandler._();
 
@@ -40,6 +40,10 @@ class DataHandler {
   }
 
   List<Calendar> getCalendars() {
+    if (currentUser == null) {
+      _reloadLoggedInUser();
+    }
+
     return currentUser!.calendars;
   }
 
@@ -60,6 +64,10 @@ class DataHandler {
   }
 
   List<Task> getFilteredTasks(Set<String> calendarIdsToHide) {
+    if (currentUser == null) {
+      _reloadLoggedInUser();
+    }
+
     return currentUser!.calendars
         .where((c) => !calendarIdsToHide.contains(c.id))
         .expand((c) => c.tasks)

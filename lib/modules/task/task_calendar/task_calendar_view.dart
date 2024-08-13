@@ -1,11 +1,9 @@
 import 'package:calendar_v2/modules/task/task_calendar/calendar_widget/calendar_widget.dart';
 import 'package:calendar_v2/modules/task/task_calendar/task_calendar_presenter.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:jiffy/jiffy.dart';
 
 class TaskCalendarView extends StatefulWidget {
-  TaskCalendarView({super.key});
+  const TaskCalendarView({super.key});
 
   @override
   State<TaskCalendarView> createState() => _TaskCalendarViewState();
@@ -83,13 +81,14 @@ class _TaskCalendarViewState extends State<TaskCalendarView> {
     );
   }
 
-  void _updateCurrentPageIndex(int value) {
+  void _updateCurrentPageIndex(int index) {
     setState(() {
-      _presenter.setCurrentPageIndex(value);
+      _presenter.setCurrentPageIndex(index);
     });
   }
 
   CalendarWidget? _calendarPageBuilder(BuildContext context, int index) {
+    _presenter.setCurrentPageIndex(index);
     var monthFirstDay = _presenter.getCurrentMonthFirstDay();
     return CalendarWidget(monthFirstDay: monthFirstDay);
   }

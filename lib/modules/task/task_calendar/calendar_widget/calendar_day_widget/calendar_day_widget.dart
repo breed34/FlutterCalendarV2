@@ -1,5 +1,4 @@
-import 'package:calendar_v2/models/task.dart';
-import 'package:calendar_v2/modules/task/task_calendar/calendar_widget/calendar_day_widget/calendar_day_presenter.dart';
+import 'package:calendar_v2/modules/task/task_calendar/calendar_widget/calendar_day_widget/calendar_day_widget_presenter.dart';
 import 'package:flutter/material.dart';
 
 class CalendarDayWidget extends StatefulWidget {
@@ -20,32 +19,50 @@ class CalendarDayWidget extends StatefulWidget {
 
 class _CalendarDayWidgetState extends State<CalendarDayWidget> {
   late final CalendarDayWidgetPresenter _presenter;
-  late final List<Task> _tasks;
 
   @override
   void initState() {
     _presenter = CalendarDayWidgetPresenter(widget.day);
-    //_tasks = _presenter.getTasks();
-    _tasks = [];
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: 20,
-          height: 20,
-          margin: const EdgeInsets.symmetric(vertical: 2),
-          alignment: Alignment.center,
-          decoration: _getNumberDecoration(),
-          child: Text(
-            widget.day.day.toString(),
-            style: _getNumberTextStyle(),
-            textAlign: TextAlign.center,
+    return GestureDetector(
+      onTap: () {},
+      child: Column(
+        children: [
+          Container(
+            width: 20,
+            height: 20,
+            margin: const EdgeInsets.symmetric(vertical: 2),
+            alignment: Alignment.center,
+            decoration: _getNumberDecoration(),
+            child: Text(
+              widget.day.day.toString(),
+              style: _getNumberTextStyle(),
+              textAlign: TextAlign.center,
+            ),
           ),
-        ),
-      ],
+          Expanded(
+            child: Container(
+              foregroundDecoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.white, Colors.white.withOpacity(0)],
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  stops: const [0.0, 0.1],
+                ),
+              ),
+              child: ListView(
+                physics: const NeverScrollableScrollPhysics(),
+                clipBehavior: Clip.hardEdge,
+                children: _getTaskWidgets(),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -57,12 +74,12 @@ class _CalendarDayWidgetState extends State<CalendarDayWidget> {
   }
 
   TextStyle _getNumberTextStyle() {
-    Color color = Colors.black.withOpacity(0.9);
+    Color color = Colors.grey[800]!;
 
     if (widget.isToday) {
       color = Colors.white;
     } else if (!widget.inCurrentMonth) {
-      color = Colors.black.withOpacity(0.3);
+      color = Colors.grey[400]!;
     }
 
     return TextStyle(
@@ -70,5 +87,28 @@ class _CalendarDayWidgetState extends State<CalendarDayWidget> {
       fontWeight: widget.isToday ? FontWeight.bold : FontWeight.normal,
       color: color,
     );
+  }
+
+  List<Widget> _getTaskWidgets() {
+    return _presenter.getTasks().map((t) {
+      return Container(
+        width: double.infinity,
+        margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 2),
+        padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 4),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(5)),
+          color: t.color.color,
+        ),
+        child: Text(
+          t.name,
+          style: const TextStyle(
+            fontSize: 10,
+            overflow: TextOverflow.ellipsis,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      );
+    }).toList();
   }
 }

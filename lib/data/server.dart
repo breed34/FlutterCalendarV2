@@ -4,6 +4,7 @@ import 'package:calendar_v2/dtos/delete_calendar_request.dart';
 import 'package:calendar_v2/dtos/delete_task_request.dart';
 import 'package:calendar_v2/dtos/update_calendar_request.dart';
 import 'package:calendar_v2/dtos/update_task_request.dart';
+import 'package:calendar_v2/enums.dart';
 import 'package:calendar_v2/models/calendar.dart';
 import 'package:calendar_v2/models/task.dart';
 import 'package:calendar_v2/models/user.dart';
@@ -21,10 +22,12 @@ class Server {
         Calendar(
           id: _uuid.v4(),
           name: "Calendar 1",
+          defaultTaskColor: TaskColor.blue,
           tasks: [
             Task(
               id: _uuid.v4(),
               name: "Task 1",
+              color: TaskColor.green,
               dueDate: DateTime.parse("2024-08-20"),
               workRemaining: 12.0,
               percentOfGrade: 4,
@@ -32,6 +35,7 @@ class Server {
             Task(
               id: _uuid.v4(),
               name: "Task 2",
+              color: TaskColor.red,
               dueDate: DateTime.parse("2024-08-23"),
               workRemaining: 6.0,
               percentOfGrade: 2,
@@ -62,6 +66,7 @@ class Server {
     var calendar = Calendar(
       id: _uuid.v4(),
       name: request.name,
+      defaultTaskColor: request.defaultTaskColor,
       tasks: [],
     );
 
@@ -76,6 +81,8 @@ class Server {
     var newCalendar = Calendar(
       id: existingCalendar.id,
       name: request.name ?? existingCalendar.name,
+      defaultTaskColor:
+          request.defaultTaskColor ?? existingCalendar.defaultTaskColor,
       tasks: existingCalendar.tasks,
     );
 
@@ -93,6 +100,7 @@ class Server {
     var task = Task(
       id: _uuid.v4(),
       name: request.name,
+      color: request.color,
       dueDate: request.dueDate,
       workRemaining: request.workRemaining,
       percentOfGrade: request.percentOfGrade,
@@ -111,6 +119,7 @@ class Server {
     var newTask = Task(
       id: existingTask.id,
       name: request.name ?? existingTask.name,
+      color: request.color ?? existingTask.color,
       dueDate: request.dueDate ?? existingTask.dueDate,
       workRemaining: request.workRemaining ?? existingTask.workRemaining,
       percentOfGrade: request.percentOfGrade ?? existingTask.percentOfGrade,
