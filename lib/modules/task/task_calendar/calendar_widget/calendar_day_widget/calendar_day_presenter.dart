@@ -1,11 +1,11 @@
 import 'package:calendar_v2/models/task.dart';
 import 'package:calendar_v2/modules/task/task_service.dart';
 
-class CalendarDayWidgetPresenter {
+class CalendarDayPresenter {
   final DateTime day;
   final TaskService _taskService = TaskService();
 
-  CalendarDayWidgetPresenter(this.day);
+  CalendarDayPresenter(this.day);
 
   List<Task> getTasks() {
     return _taskService

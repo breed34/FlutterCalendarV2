@@ -1,4 +1,5 @@
-import 'package:calendar_v2/modules/task/task_calendar/calendar_widget/calendar_day_widget/calendar_day_widget_presenter.dart';
+import 'package:calendar_v2/modules/task/task_calendar/calendar_widget/calendar_day_widget/calendar_day_dialog/calendar_day_dialog.dart';
+import 'package:calendar_v2/modules/task/task_calendar/calendar_widget/calendar_day_widget/calendar_day_presenter.dart';
 import 'package:flutter/material.dart';
 
 class CalendarDayWidget extends StatefulWidget {
@@ -18,18 +19,18 @@ class CalendarDayWidget extends StatefulWidget {
 }
 
 class _CalendarDayWidgetState extends State<CalendarDayWidget> {
-  late final CalendarDayWidgetPresenter _presenter;
+  late final CalendarDayPresenter _presenter;
 
   @override
   void initState() {
-    _presenter = CalendarDayWidgetPresenter(widget.day);
+    _presenter = CalendarDayPresenter(widget.day);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: _showCalendarDayDialog,
       child: Column(
         children: [
           Container(
@@ -63,6 +64,13 @@ class _CalendarDayWidgetState extends State<CalendarDayWidget> {
           ),
         ],
       ),
+    );
+  }
+
+  void _showCalendarDayDialog() async {
+    await showDialog(
+      context: context,
+      builder: (context) => CalendarDayDialog(widget.day),
     );
   }
 
