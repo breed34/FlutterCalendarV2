@@ -4,7 +4,7 @@ import 'package:calendar_v2/dtos/delete_calendar_request.dart';
 import 'package:calendar_v2/dtos/delete_task_request.dart';
 import 'package:calendar_v2/dtos/update_calendar_request.dart';
 import 'package:calendar_v2/dtos/update_task_request.dart';
-import 'package:calendar_v2/enums.dart';
+import 'package:calendar_v2/models/enums.dart';
 import 'package:calendar_v2/models/calendar.dart';
 import 'package:calendar_v2/models/task.dart';
 import 'package:calendar_v2/models/user.dart';
@@ -30,7 +30,7 @@ class Server {
               color: TaskColor.green,
               dueDate: DateTime.parse("2024-08-20"),
               workRemaining: 12.0,
-              percentOfGrade: 4,
+              importance: 4,
             ),
             Task(
               id: _uuid.v4(),
@@ -38,7 +38,7 @@ class Server {
               color: TaskColor.red,
               dueDate: DateTime.parse("2024-08-23"),
               workRemaining: 6.0,
-              percentOfGrade: 2,
+              importance: 2,
             ),
           ],
         ),
@@ -103,7 +103,7 @@ class Server {
       color: request.color,
       dueDate: request.dueDate,
       workRemaining: request.workRemaining,
-      percentOfGrade: request.percentOfGrade,
+      importance: request.importance,
     );
 
     calendar.tasks.add(task);
@@ -122,7 +122,7 @@ class Server {
       color: request.color ?? existingTask.color,
       dueDate: request.dueDate ?? existingTask.dueDate,
       workRemaining: request.workRemaining ?? existingTask.workRemaining,
-      percentOfGrade: request.percentOfGrade ?? existingTask.percentOfGrade,
+      importance: request.importance ?? existingTask.importance,
     );
 
     calendar.tasks[existingTaskIndex] = newTask;

@@ -23,7 +23,7 @@ class TaskPrioritizerPresenter {
   }
 
   double _getTaskPriority(Task task) {
-    return task.workRemaining / _daysLeft(task.dueDate) * task.percentOfGrade;
+    return task.workRemaining / _daysLeft(task.dueDate) * task.importance;
   }
 
   double _daysLeft(DateTime dueDate) {

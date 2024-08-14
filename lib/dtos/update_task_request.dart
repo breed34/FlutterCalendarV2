@@ -1,4 +1,4 @@
-import 'package:calendar_v2/enums.dart';
+import 'package:calendar_v2/models/enums.dart';
 
 class UpdateTaskRequest {
   final String calendarId;
@@ -7,7 +7,7 @@ class UpdateTaskRequest {
   final TaskColor? color;
   final DateTime? dueDate;
   final double? workRemaining;
-  final double? percentOfGrade;
+  final double? importance;
 
   const UpdateTaskRequest({
     required this.calendarId,
@@ -16,6 +16,6 @@ class UpdateTaskRequest {
     this.color,
     this.dueDate,
     this.workRemaining,
-    this.percentOfGrade,
+    this.importance,
   });
 }

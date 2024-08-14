@@ -1,4 +1,4 @@
-import 'package:calendar_v2/enums.dart';
+import 'package:calendar_v2/models/enums.dart';
 
 class UpdateCalendarRequest {
   final String calendarId;

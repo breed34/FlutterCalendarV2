@@ -1,4 +1,4 @@
-import 'package:calendar_v2/enums.dart';
+import 'package:calendar_v2/models/enums.dart';
 
 class Task {
   final String id;
@@ -6,7 +6,7 @@ class Task {
   final TaskColor color;
   final DateTime dueDate;
   final double workRemaining;
-  final double percentOfGrade;
+  final double importance;
 
   const Task({
     required this.id,
@@ -14,6 +14,6 @@ class Task {
     required this.color,
     required this.dueDate,
     required this.workRemaining,
-    required this.percentOfGrade,
+    required this.importance,
   });
 }

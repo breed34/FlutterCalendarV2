@@ -11,6 +11,19 @@ var theme = ThemeData(
     style: FilledButton.styleFrom(backgroundColor: Colors.blue),
   ),
   iconButtonTheme: IconButtonThemeData(
-    style: IconButton.styleFrom(visualDensity: VisualDensity.compact),
+    style: IconButton.styleFrom(
+      visualDensity: VisualDensity.standard,
+      shape: const CircleBorder(),
+    ),
+  ),
+  inputDecorationTheme: const InputDecorationTheme(
+    border: OutlineInputBorder(),
+    isDense: true,
+  ),
+  dropdownMenuTheme: const DropdownMenuThemeData(
+    inputDecorationTheme: InputDecorationTheme(
+      border: OutlineInputBorder(),
+      isDense: true,
+    ),
   ),
 );

@@ -2,6 +2,7 @@ import 'package:calendar_v2/data/data_handler.dart';
 import 'package:calendar_v2/dtos/create_task_request.dart';
 import 'package:calendar_v2/dtos/delete_task_request.dart';
 import 'package:calendar_v2/dtos/update_task_request.dart';
+import 'package:calendar_v2/models/calendar.dart';
 import 'package:calendar_v2/models/task.dart';
 
 class TaskService {
@@ -36,5 +37,9 @@ class TaskService {
 
   void deleteTask(DeleteTaskRequest request) {
     _dataHandler.deleteTask(request);
+  }
+
+  List<Calendar> getAllCalendars() {
+    return _dataHandler.getCalendars();
   }
 }
