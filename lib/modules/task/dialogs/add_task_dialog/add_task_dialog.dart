@@ -107,7 +107,10 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
             ),
             SizedBox(height: _fieldSpacing),
             FilledButton(
-              onPressed: _validateFormAndCreateTask,
+              onPressed: () {
+                _validateFormAndCreateTask();
+                Navigator.pop(context);
+              },
               child: const Text('Create Task'),
             ),
           ],

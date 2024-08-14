@@ -3,12 +3,23 @@ import 'package:calendar_v2/modules/task/task_calendar/calendar_widget/calendar_
 import 'package:calendar_v2/shared/base_dialog.dart';
 import 'package:flutter/material.dart';
 
-class CalendarDayDialog extends StatelessWidget {
+class CalendarDayDialog extends StatefulWidget {
   final DateTime day;
+
+  CalendarDayDialog(this.day, {super.key}) {}
+
+  @override
+  State<CalendarDayDialog> createState() => _CalendarDayDialogState();
+}
+
+class _CalendarDayDialogState extends State<CalendarDayDialog> {
   late final CalendarDayDialogPresenter _presenter;
 
-  CalendarDayDialog(this.day, {super.key}) {
-    _presenter = CalendarDayDialogPresenter(day);
+  @override
+  void initState() {
+    _presenter = CalendarDayDialogPresenter(widget.day);
+
+    super.initState();
   }
 
   @override
@@ -65,7 +76,7 @@ class CalendarDayDialog extends StatelessWidget {
     await showDialog(
       context: context,
       builder: (BuildContext buildContext) =>
-          AddTaskDialog(initialDueDate: day),
+          AddTaskDialog(initialDueDate: widget.day),
     );
   }
 }
