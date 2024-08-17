@@ -2,13 +2,13 @@ import 'package:calendar_v2/models/enums.dart';
 
 class Task {
   final String id;
-  final String name;
-  final TaskColor color;
-  final DateTime dueDate;
-  final double workRemaining;
-  final double importance;
+  String name;
+  TaskColor color;
+  DateTime dueDate;
+  double workRemaining;
+  double importance;
 
-  const Task({
+  Task({
     required this.id,
     required this.name,
     required this.color,

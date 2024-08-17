@@ -1,11 +1,10 @@
-import 'package:calendar_v2/dtos/create_task_request.dart';
 import 'package:calendar_v2/models/enums.dart';
-import 'package:calendar_v2/modules/task/task_service.dart';
+import 'package:calendar_v2/modules/calendar/calendar_service.dart';
 import 'package:intl/intl.dart';
 
 class AddTaskDialogPresenter {
   final DateTime? initialDueDate;
-  final TaskService _taskService = TaskService();
+  final CalendarService _service = CalendarService();
 
   AddTaskDialogPresenter({this.initialDueDate});
 
@@ -25,15 +24,13 @@ class AddTaskDialogPresenter {
     String workRemaing,
     String importance,
   ) {
-    var request = CreateTaskRequest(
-      calendarId: calendarId,
-      name: name,
-      color: color,
-      dueDate: DateFormat('MM/dd/yyyy').parse(dueDate),
-      workRemaining: double.parse(workRemaing),
-      importance: double.parse(importance),
+    _service.createTask(
+      calendarId,
+      name,
+      color,
+      DateFormat('MM/dd/yyyy').parse(dueDate),
+      double.parse(workRemaing),
+      double.parse(importance),
     );
-
-    _taskService.createTask(request);
   }
 }

@@ -1,6 +1,6 @@
 import 'package:calendar_v2/modules/calendar/calendar_manager/calendar_manager_view.dart';
-import 'package:calendar_v2/modules/task/task_calendar/task_calendar_view.dart';
-import 'package:calendar_v2/modules/task/task_prioritizer/task_prioritizer_view.dart';
+import 'package:calendar_v2/modules/calendar/tasks/task_calendar/task_calendar_view.dart';
+import 'package:calendar_v2/modules/calendar/tasks/task_prioritizer/task_prioritizer_view.dart';
 import 'package:calendar_v2/modules/user/login/login_view.dart';
 import 'package:calendar_v2/modules/user/register/register_view.dart';
 import 'package:go_router/go_router.dart';

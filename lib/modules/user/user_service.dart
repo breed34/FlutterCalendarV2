@@ -1,17 +1,7 @@
-import 'package:calendar_v2/data/data_handler.dart';
-
 class UserService {
-  final DataHandler _dataHandler = DataHandler();
+  void login() {}
 
-  void login() {
-    _dataHandler.login();
-  }
+  void register() {}
 
-  void register() {
-    _dataHandler.register();
-  }
-
-  void logout() {
-    _dataHandler.logout();
-  }
+  void logout() {}
 }

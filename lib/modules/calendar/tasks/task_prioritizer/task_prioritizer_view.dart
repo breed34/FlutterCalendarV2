@@ -1,4 +1,4 @@
-import 'package:calendar_v2/modules/task/task_prioritizer/task_prioritizer_presenter.dart';
+import 'package:calendar_v2/modules/calendar/tasks/task_prioritizer/task_prioritizer_presenter.dart';
 import 'package:flutter/material.dart';
 
 class TaskPrioritizerView extends StatelessWidget {

@@ -1,8 +1,8 @@
 import 'package:calendar_v2/models/calendar.dart';
 import 'package:calendar_v2/models/enums.dart';
-import 'package:calendar_v2/modules/task/dialogs/add_task_dialog/add_task_dialog_presenter.dart';
-import 'package:calendar_v2/modules/task/dialogs/add_task_dialog/calendar_dropdown_widget/calendar_dropdown_widget.dart';
-import 'package:calendar_v2/modules/task/dialogs/add_task_dialog/color_dropdown_widget/color_dropdown_widget.dart';
+import 'package:calendar_v2/modules/calendar/tasks/dialogs/add_task_dialog/add_task_dialog_presenter.dart';
+import 'package:calendar_v2/modules/calendar/tasks/dialogs/add_task_dialog/calendar_dropdown_widget/calendar_dropdown_widget.dart';
+import 'package:calendar_v2/modules/calendar/tasks/dialogs/add_task_dialog/color_dropdown_widget/color_dropdown_widget.dart';
 import 'package:calendar_v2/shared/base_dialog.dart';
 import 'package:calendar_v2/shared/base_input.dart';
 import 'package:calendar_v2/shared/base_dropdown.dart';

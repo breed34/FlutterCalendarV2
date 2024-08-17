@@ -1,25 +1,175 @@
-import 'package:calendar_v2/data/data_handler.dart';
 import 'package:calendar_v2/dtos/create_calendar_request.dart';
 import 'package:calendar_v2/dtos/delete_calendar_request.dart';
 import 'package:calendar_v2/dtos/update_calendar_request.dart';
 import 'package:calendar_v2/models/calendar.dart';
+import 'package:calendar_v2/models/enums.dart';
+import 'package:calendar_v2/models/task.dart';
+import 'package:calendar_v2/server.dart';
+import 'package:calendar_v2/temp/mock_user_service.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:uuid/uuid.dart';
 
 class CalendarService {
-  final DataHandler _dataHandler = DataHandler();
+  static final CalendarService _instance = CalendarService._();
 
-  void createCalendar(CreateCalendarRequest request) {
-    _dataHandler.createCalendar(request);
+  final MockUserService _userService = MockUserService();
+  final Server _server = Server();
+  final Uuid _uuid = const Uuid();
+  final BehaviorSubject<List<Calendar>> _calendars =
+      BehaviorSubject<List<Calendar>>();
+
+  CalendarService._();
+
+  factory CalendarService() => _instance;
+
+  void createTask(
+    String calendarId,
+    String name,
+    TaskColor color,
+    DateTime dueDate,
+    double workRemaining,
+    double importance,
+  ) {
+    List<Calendar> calendars = List.from(_calendars.value);
+    Calendar calendarToUpdate = calendars.firstWhere((c) => c.id == calendarId);
+
+    calendarToUpdate.tasks.add(Task(
+      id: _uuid.v4(),
+      name: name,
+      color: color,
+      dueDate: dueDate,
+      workRemaining: workRemaining,
+      importance: importance,
+    ));
+
+    _calendars.sink.add(calendars);
+    _server.updateCalendar(UpdateCalendarRequest(
+      userId: _userService.getUserId(),
+      calendarId: calendarToUpdate.id,
+      tasks: calendarToUpdate.tasks,
+    ));
   }
 
-  List<Calendar> getCalendars() {
-    return _dataHandler.getCalendars();
+  Stream<List<Task>> getFilteredTasks() {
+    if (!_calendars.hasValue) {
+      _calendars.sink.add(_server.getCalendars(_userService.getUserId()));
+    }
+
+    return _calendars.map((cs) => cs.expand((c) => c.tasks).toList());
   }
 
-  void updateCalendar(UpdateCalendarRequest request) {
-    _dataHandler.updateCalendar(request);
+  void updateTask(
+    String currentCalendarId,
+    String taskId,
+    String? newCalendarId,
+    String? name,
+    TaskColor? color,
+    DateTime? dueDate,
+    double? workRemaining,
+    double? importance,
+  ) {
+    List<Calendar> calendars = List.from(_calendars.value);
+    Calendar currentCalendarToUpdate =
+        calendars.firstWhere((c) => c.id == currentCalendarId);
+
+    Task taskToUpdate =
+        currentCalendarToUpdate.tasks.firstWhere((t) => t.id == taskId);
+
+    taskToUpdate.name = name ?? taskToUpdate.name;
+    taskToUpdate.color = color ?? taskToUpdate.color;
+    taskToUpdate.dueDate = dueDate ?? taskToUpdate.dueDate;
+    taskToUpdate.workRemaining = workRemaining ?? taskToUpdate.workRemaining;
+    taskToUpdate.importance = importance ?? taskToUpdate.importance;
+
+    if (newCalendarId != null && currentCalendarId != newCalendarId) {
+      Calendar newCalendarToUpdate =
+          calendars.firstWhere((c) => c.id == newCalendarId);
+      currentCalendarToUpdate.tasks.removeWhere((t) => t.id == taskToUpdate.id);
+      newCalendarToUpdate.tasks.add(taskToUpdate);
+
+      _server.updateCalendar(UpdateCalendarRequest(
+        userId: _userService.getUserId(),
+        calendarId: newCalendarToUpdate.id,
+        tasks: newCalendarToUpdate.tasks,
+      ));
+    }
+
+    _calendars.sink.add(calendars);
+    _server.updateCalendar(UpdateCalendarRequest(
+      userId: _userService.getUserId(),
+      calendarId: currentCalendarToUpdate.id,
+      tasks: currentCalendarToUpdate.tasks,
+    ));
   }
 
-  void deleteCalendar(DeleteCalendarRequest request) {
-    _dataHandler.deleteCalendar(request);
+  void deleteTask(String calendarId, String taskId) {
+    List<Calendar> calendars = List.from(_calendars.value);
+    Calendar calendarToUpdate = calendars.firstWhere((c) => c.id == calendarId);
+
+    calendarToUpdate.tasks.removeWhere((t) => t.id == taskId);
+
+    _calendars.sink.add(calendars);
+    _server.updateCalendar(UpdateCalendarRequest(
+      userId: _userService.getUserId(),
+      calendarId: calendarToUpdate.id,
+      tasks: calendarToUpdate.tasks,
+    ));
+  }
+
+  void createCalendar(String name, TaskColor defaultTaskColor) {
+    List<Calendar> calendars = List.from(_calendars.value);
+    calendars.add(Calendar(
+      id: _uuid.v4(),
+      name: name,
+      defaultTaskColor: defaultTaskColor,
+      tasks: [],
+    ));
+
+    _calendars.sink.add(calendars);
+    _server.createCalendar(CreateCalendarRequest(
+      userId: _userService.getUserId(),
+      name: name,
+      defaultTaskColor: defaultTaskColor,
+    ));
+  }
+
+  Stream<List<Calendar>> getCalendars() {
+    if (!_calendars.hasValue) {
+      _calendars.sink.add(_server.getCalendars(_userService.getUserId()));
+    }
+
+    return _calendars.stream;
+  }
+
+  void updateCalendar(
+    String calendarId,
+    String? name,
+    TaskColor? defaultTaskColor,
+  ) {
+    List<Calendar> calendars = List.from(_calendars.value);
+    Calendar calendarToUpdate = calendars.firstWhere((c) => c.id == calendarId);
+
+    calendarToUpdate.name = name ?? calendarToUpdate.name;
+    calendarToUpdate.defaultTaskColor =
+        defaultTaskColor ?? calendarToUpdate.defaultTaskColor;
+
+    _calendars.sink.add(calendars);
+    _server.updateCalendar(UpdateCalendarRequest(
+      userId: _userService.getUserId(),
+      calendarId: calendarId,
+      name: calendarToUpdate.name,
+      defaultTaskColor: calendarToUpdate.defaultTaskColor,
+    ));
+  }
+
+  void deleteCalendar(String calendarId) {
+    List<Calendar> calendars = List.from(_calendars.value);
+    calendars.removeWhere((c) => c.id == calendarId);
+
+    _calendars.sink.add(calendars);
+    _server.deleteCalendar(DeleteCalendarRequest(
+      userId: _userService.getUserId(),
+      calendarId: calendarId,
+    ));
   }
 }

@@ -1,17 +1,16 @@
 import 'package:calendar_v2/models/task.dart';
-import 'package:calendar_v2/modules/task/task_service.dart';
+import 'package:calendar_v2/modules/calendar/calendar_service.dart';
 
 class CalendarDayPresenter {
   final DateTime day;
-  final TaskService _taskService = TaskService();
+  final CalendarService _service = CalendarService();
 
   CalendarDayPresenter(this.day);
 
-  List<Task> getTasks() {
-    return _taskService
+  Stream<List<Task>> getTasks() {
+    return _service
         .getFilteredTasks()
-        .where((t) => _isSameDay(day, t.dueDate))
-        .toList();
+        .map((ts) => ts.where((t) => _isSameDay(day, t.dueDate)).toList());
   }
 
   bool _isSameDay(DateTime d1, DateTime d2) {

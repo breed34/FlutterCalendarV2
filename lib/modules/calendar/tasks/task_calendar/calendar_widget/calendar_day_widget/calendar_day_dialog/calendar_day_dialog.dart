@@ -1,5 +1,6 @@
-import 'package:calendar_v2/modules/task/dialogs/add_task_dialog/add_task_dialog.dart';
-import 'package:calendar_v2/modules/task/task_calendar/calendar_widget/calendar_day_widget/calendar_day_dialog/calendar_day_dialog_presenter.dart';
+import 'package:calendar_v2/models/task.dart';
+import 'package:calendar_v2/modules/calendar/tasks/dialogs/add_task_dialog/add_task_dialog.dart';
+import 'package:calendar_v2/modules/calendar/tasks/task_calendar/calendar_widget/calendar_day_widget/calendar_day_dialog/calendar_day_dialog_presenter.dart';
 import 'package:calendar_v2/shared/base_dialog.dart';
 import 'package:flutter/material.dart';
 
@@ -26,25 +27,29 @@ class _CalendarDayDialogState extends State<CalendarDayDialog> {
   Widget build(BuildContext context) {
     return BaseDialog(
       title: _presenter.getFormattedDate(),
-      content: Column(
-        children: [
-          ..._buildTaskWidgets(),
-          const SizedBox(height: 24),
-          FilledButton(
-            onPressed: () {
-              _openAddTaskDialog(context);
-            },
-            style: FilledButton.styleFrom(backgroundColor: Colors.grey),
-            child: const Text('Add Task'),
-          ),
-        ],
+      content: StreamBuilder<List<Task>>(
+        stream: _presenter.getTasks(),
+        builder: (context, snapshot) {
+          return Column(
+            children: [
+              ..._buildTaskWidgets(snapshot.data),
+              const SizedBox(height: 24),
+              FilledButton(
+                onPressed: () {
+                  _openAddTaskDialog(context);
+                },
+                style: FilledButton.styleFrom(backgroundColor: Colors.grey),
+                child: const Text('Add Task'),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 
-  List<Widget> _buildTaskWidgets() {
-    var tasks = _presenter.getTasks();
-    if (tasks.isNotEmpty) {
+  List<Widget> _buildTaskWidgets(List<Task>? tasks) {
+    if (tasks != null && tasks.isNotEmpty) {
       return tasks.map((task) {
         return SizedBox(
           width: double.infinity,

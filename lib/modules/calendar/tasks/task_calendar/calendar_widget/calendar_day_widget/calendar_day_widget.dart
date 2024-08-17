@@ -1,5 +1,6 @@
-import 'package:calendar_v2/modules/task/task_calendar/calendar_widget/calendar_day_widget/calendar_day_dialog/calendar_day_dialog.dart';
-import 'package:calendar_v2/modules/task/task_calendar/calendar_widget/calendar_day_widget/calendar_day_presenter.dart';
+import 'package:calendar_v2/models/task.dart';
+import 'package:calendar_v2/modules/calendar/tasks/task_calendar/calendar_widget/calendar_day_widget/calendar_day_dialog/calendar_day_dialog.dart';
+import 'package:calendar_v2/modules/calendar/tasks/task_calendar/calendar_widget/calendar_day_widget/calendar_day_presenter.dart';
 import 'package:flutter/material.dart';
 
 class CalendarDayWidget extends StatefulWidget {
@@ -55,11 +56,15 @@ class _CalendarDayWidgetState extends State<CalendarDayWidget> {
                   stops: const [0.0, 0.1],
                 ),
               ),
-              child: ListView(
-                physics: const NeverScrollableScrollPhysics(),
-                clipBehavior: Clip.hardEdge,
-                children: _getTaskWidgets(),
-              ),
+              child: StreamBuilder<List<Task>>(
+                  stream: _presenter.getTasks(),
+                  builder: (context, snapshot) {
+                    return ListView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      clipBehavior: Clip.hardEdge,
+                      children: _getTaskWidgets(snapshot.data),
+                    );
+                  }),
             ),
           ),
         ],
@@ -97,8 +102,8 @@ class _CalendarDayWidgetState extends State<CalendarDayWidget> {
     );
   }
 
-  List<Widget> _getTaskWidgets() {
-    return _presenter.getTasks().map((t) {
+  List<Widget> _getTaskWidgets(List<Task>? tasks) {
+    return (tasks ?? []).map((t) {
       return Container(
         width: double.infinity,
         margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 2),

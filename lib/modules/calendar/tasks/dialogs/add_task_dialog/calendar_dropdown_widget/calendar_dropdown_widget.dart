@@ -1,5 +1,5 @@
 import 'package:calendar_v2/models/calendar.dart';
-import 'package:calendar_v2/modules/task/dialogs/add_task_dialog/calendar_dropdown_widget/calendar_dropdown_widget_presenter.dart';
+import 'package:calendar_v2/modules/calendar/tasks/dialogs/add_task_dialog/calendar_dropdown_widget/calendar_dropdown_widget_presenter.dart';
 import 'package:calendar_v2/shared/base_dropdown.dart';
 import 'package:flutter/material.dart';
 
@@ -25,30 +25,35 @@ class _CalendarDropdownWidgetState
 
   @override
   Widget build(BuildContext context) {
-    return FormField<Calendar>(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      validator: validate,
-      builder: (state) => DropdownMenu<Calendar>(
-        label: Text(widget.label),
-        requestFocusOnTap: false,
-        dropdownMenuEntries: _buildDropdownMenuEntries(),
-        expandedInsets: EdgeInsets.zero,
-        trailingIcon: _trailingIcon,
-        errorText: state.errorText,
-        onSelected: (value) {
-          setControllerValue(value);
-          state.didChange(value);
-          setState(() {
-            _trailingIcon = _getTrailingIcon(value);
-          });
-        },
-      ),
+    return StreamBuilder<List<Calendar>>(
+      stream: _presenter.getCalendars(),
+      builder: (context, snapshot) {
+        return FormField<Calendar>(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: validate,
+          builder: (state) => DropdownMenu<Calendar>(
+            label: Text(widget.label),
+            requestFocusOnTap: false,
+            dropdownMenuEntries: _buildDropdownMenuEntries(snapshot.data),
+            expandedInsets: EdgeInsets.zero,
+            trailingIcon: _trailingIcon,
+            errorText: state.errorText,
+            onSelected: (value) {
+              setControllerValue(value);
+              state.didChange(value);
+              setState(() {
+                _trailingIcon = _getTrailingIcon(value);
+              });
+            },
+          ),
+        );
+      },
     );
   }
 
-  List<DropdownMenuEntry<Calendar>> _buildDropdownMenuEntries() {
-    return _presenter
-        .getCalendars()
+  List<DropdownMenuEntry<Calendar>> _buildDropdownMenuEntries(
+      List<Calendar>? calendars) {
+    return (calendars ?? [])
         .map((c) => DropdownMenuEntry(
               value: c,
               label: c.name,

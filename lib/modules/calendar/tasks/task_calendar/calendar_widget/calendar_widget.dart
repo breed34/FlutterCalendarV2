@@ -1,5 +1,5 @@
-import 'package:calendar_v2/modules/task/task_calendar/calendar_widget/calendar_day_widget/calendar_day_widget.dart';
-import 'package:calendar_v2/modules/task/task_calendar/calendar_widget/calendar_widget_presenter.dart';
+import 'package:calendar_v2/modules/calendar/tasks/task_calendar/calendar_widget/calendar_day_widget/calendar_day_widget.dart';
+import 'package:calendar_v2/modules/calendar/tasks/task_calendar/calendar_widget/calendar_widget_presenter.dart';
 import 'package:flutter/material.dart';
 
 class CalendarWidget extends StatefulWidget {

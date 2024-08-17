@@ -1,13 +1,15 @@
 import 'package:calendar_v2/models/task.dart';
-import 'package:calendar_v2/modules/task/task_service.dart';
+import 'package:calendar_v2/modules/calendar/calendar_service.dart';
 
 class TaskPrioritizerPresenter {
-  final TaskService _taskService = TaskService();
+  final CalendarService _service = CalendarService();
 
-  List<Task> getTasksSortedByPriority() {
-    List<Task> sortedTasks = List.from(_taskService.getFilteredTasks());
-    sortedTasks.sort(_sortByPriority);
-    return sortedTasks;
+  Stream<List<Task>> getTasksSortedByPriority() {
+    return _service.getFilteredTasks().map((ts) {
+      List<Task> sortedTasks = List.from(ts);
+      sortedTasks.sort(_sortByPriority);
+      return sortedTasks;
+    });
   }
 
   int _sortByPriority(Task t1, Task t2) {
