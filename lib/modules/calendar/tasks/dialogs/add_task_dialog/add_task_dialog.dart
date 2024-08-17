@@ -1,25 +1,15 @@
 import 'package:calendar_v2/models/calendar.dart';
 import 'package:calendar_v2/models/enums.dart';
 import 'package:calendar_v2/modules/calendar/tasks/dialogs/add_task_dialog/add_task_dialog_presenter.dart';
-import 'package:calendar_v2/modules/calendar/tasks/dialogs/add_task_dialog/calendar_dropdown_widget/calendar_dropdown_widget.dart';
-import 'package:calendar_v2/modules/calendar/tasks/dialogs/add_task_dialog/color_dropdown_widget/color_dropdown_widget.dart';
+import 'package:calendar_v2/modules/calendar/tasks/dialogs/task_form_widget/task_form_widget.dart';
 import 'package:calendar_v2/shared/base_dialog.dart';
-import 'package:calendar_v2/shared/base_input.dart';
 import 'package:calendar_v2/shared/base_dropdown.dart';
 import 'package:flutter/material.dart';
 
-class AddTaskDialog extends StatefulWidget {
+class AddTaskDialog extends StatelessWidget {
+  late final AddTaskDialogPresenter _presenter = AddTaskDialogPresenter();
   final DateTime? initialDueDate;
 
-  const AddTaskDialog({this.initialDueDate, super.key});
-
-  @override
-  State<AddTaskDialog> createState() => _AddTaskDialogState();
-}
-
-class _AddTaskDialogState extends State<AddTaskDialog> {
-  late final AddTaskDialogPresenter _presenter;
-  final double _fieldSpacing = 12.0;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final DropdownController<Calendar> _calendarController =
@@ -30,91 +20,35 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
   final TextEditingController _workLeftController = TextEditingController();
   final TextEditingController _importanceController = TextEditingController();
 
-  @override
-  void initState() {
-    _presenter = AddTaskDialogPresenter(initialDueDate: widget.initialDueDate);
+  AddTaskDialog({this.initialDueDate, super.key}) {
     _dueDateController = TextEditingController(
-      text: _presenter.getInitialDueDateValue(),
+      text: _presenter.getDueDateText(initialDueDate),
     );
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return BaseDialog(
       title: 'Create Task',
-      content: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            BaseInput(
-              label: "Name",
-              required: true,
-              controller: _nameController,
-            ),
-            SizedBox(height: _fieldSpacing),
-            CalendarDropdownWidget(
-              label: 'Calendar',
-              controller: _calendarController,
-              required: true,
-            ),
-            SizedBox(height: _fieldSpacing),
-            Row(
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: BaseInput(
-                    label: "Due Date",
-                    type: BaseInputType.datetime,
-                    required: true,
-                    controller: _dueDateController,
-                  ),
-                ),
-                SizedBox(width: _fieldSpacing),
-                Flexible(
-                  flex: 1,
-                  child: ColorDropdownWidget(
-                    label: "Color",
-                    controller: _colorController,
-                    required: true,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: _fieldSpacing),
-            Row(
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: BaseInput(
-                    label: "Work Left",
-                    type: BaseInputType.decimal,
-                    required: true,
-                    controller: _workLeftController,
-                  ),
-                ),
-                SizedBox(width: _fieldSpacing),
-                Flexible(
-                  flex: 1,
-                  child: BaseInput(
-                    label: "Importance",
-                    type: BaseInputType.decimal,
-                    required: true,
-                    controller: _importanceController,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: _fieldSpacing),
-            FilledButton(
-              onPressed: () {
-                _validateFormAndCreateTask();
-                Navigator.pop(context);
-              },
-              child: const Text('Create Task'),
-            ),
-          ],
-        ),
+      content: Column(
+        children: [
+          TaskFormWidget(
+            formKey: _formKey,
+            nameController: _nameController,
+            calendarController: _calendarController,
+            dueDateController: _dueDateController,
+            colorController: _colorController,
+            workLeftController: _workLeftController,
+            importanceController: _importanceController,
+          ),
+          FilledButton(
+            onPressed: () {
+              _validateFormAndCreateTask();
+              Navigator.pop(context);
+            },
+            child: const Text('Create Task'),
+          ),
+        ],
       ),
     );
   }

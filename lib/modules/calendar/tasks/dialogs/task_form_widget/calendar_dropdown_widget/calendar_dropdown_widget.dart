@@ -1,5 +1,5 @@
 import 'package:calendar_v2/models/calendar.dart';
-import 'package:calendar_v2/modules/calendar/tasks/dialogs/add_task_dialog/calendar_dropdown_widget/calendar_dropdown_widget_presenter.dart';
+import 'package:calendar_v2/modules/calendar/tasks/dialogs/task_form_widget/calendar_dropdown_widget/calendar_dropdown_widget_presenter.dart';
 import 'package:calendar_v2/shared/base_dropdown.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +28,14 @@ class _CalendarDropdownWidgetState
     return StreamBuilder<List<Calendar>>(
       stream: _presenter.getCalendars(),
       builder: (context, snapshot) {
+        Calendar? initialSelection;
+
+        if (getControllerValue()?.id != null) {
+          initialSelection = snapshot.data
+              ?.firstWhere((c) => c.id == getControllerValue()?.id);
+          _trailingIcon = _getTrailingIcon(initialSelection);
+        }
+
         return FormField<Calendar>(
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: validate,
@@ -35,6 +43,7 @@ class _CalendarDropdownWidgetState
             label: Text(widget.label),
             requestFocusOnTap: false,
             dropdownMenuEntries: _buildDropdownMenuEntries(snapshot.data),
+            initialSelection: initialSelection,
             expandedInsets: EdgeInsets.zero,
             trailingIcon: _trailingIcon,
             errorText: state.errorText,

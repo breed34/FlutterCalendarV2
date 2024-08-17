@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 class DropdownController<T> {
   T? value;
+
+  DropdownController({this.value});
 }
 
 class BaseDropdown<T> extends StatefulWidget {
@@ -43,5 +45,9 @@ class BaseDropdownState<T, U extends BaseDropdown<T>> extends State<U> {
 
   void setControllerValue(T? value) {
     widget._controller.value = value;
+  }
+
+  T? getControllerValue() {
+    return widget._controller.value;
   }
 }

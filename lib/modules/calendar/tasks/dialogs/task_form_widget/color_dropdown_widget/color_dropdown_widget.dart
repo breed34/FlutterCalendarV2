@@ -22,6 +22,10 @@ class _ColorDropdownWidgetState
 
   @override
   Widget build(BuildContext context) {
+    if (getControllerValue() != null) {
+      _trailingIcon = _getTrailingIcon(getControllerValue());
+    }
+
     return FormField<TaskColor>(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: validate,
@@ -29,6 +33,7 @@ class _ColorDropdownWidgetState
         label: Text(widget.label),
         requestFocusOnTap: false,
         dropdownMenuEntries: _buildDropdownMenuEntries(),
+        initialSelection: getControllerValue(),
         expandedInsets: EdgeInsets.zero,
         trailingIcon: _trailingIcon,
         errorText: state.errorText,

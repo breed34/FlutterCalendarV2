@@ -35,6 +35,7 @@ class CalendarService {
 
     calendarToUpdate.tasks.add(Task(
       id: _uuid.v4(),
+      calendarId: calendarToUpdate.id,
       name: name,
       color: color,
       dueDate: dueDate,
@@ -84,6 +85,7 @@ class CalendarService {
     if (newCalendarId != null && currentCalendarId != newCalendarId) {
       Calendar newCalendarToUpdate =
           calendars.firstWhere((c) => c.id == newCalendarId);
+      taskToUpdate.calendarId = newCalendarToUpdate.id;
       currentCalendarToUpdate.tasks.removeWhere((t) => t.id == taskToUpdate.id);
       newCalendarToUpdate.tasks.add(taskToUpdate);
 
@@ -131,6 +133,14 @@ class CalendarService {
       name: name,
       defaultTaskColor: defaultTaskColor,
     ));
+  }
+
+  Calendar getCalendarById(String calendarId) {
+    if (!_calendars.hasValue) {
+      _calendars.sink.add(_server.getCalendars(_userService.getUserId()));
+    }
+
+    return _calendars.value.firstWhere((c) => c.id == calendarId);
   }
 
   Stream<List<Calendar>> getCalendars() {

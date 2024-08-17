@@ -57,14 +57,15 @@ class _CalendarDayWidgetState extends State<CalendarDayWidget> {
                 ),
               ),
               child: StreamBuilder<List<Task>>(
-                  stream: _presenter.getTasks(),
-                  builder: (context, snapshot) {
-                    return ListView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      clipBehavior: Clip.hardEdge,
-                      children: _getTaskWidgets(snapshot.data),
-                    );
-                  }),
+                stream: _presenter.getTasks(),
+                builder: (context, snapshot) {
+                  return ListView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    clipBehavior: Clip.hardEdge,
+                    children: _getTaskWidgets(snapshot.data),
+                  );
+                },
+              ),
             ),
           ),
         ],

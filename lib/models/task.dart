@@ -2,6 +2,7 @@ import 'package:calendar_v2/models/enums.dart';
 
 class Task {
   final String id;
+  String calendarId;
   String name;
   TaskColor color;
   DateTime dueDate;
@@ -10,6 +11,7 @@ class Task {
 
   Task({
     required this.id,
+    required this.calendarId,
     required this.name,
     required this.color,
     required this.dueDate,
