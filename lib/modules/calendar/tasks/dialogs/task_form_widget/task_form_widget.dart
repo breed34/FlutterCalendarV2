@@ -42,8 +42,8 @@ class TaskFormWidget extends StatelessWidget {
           SizedBox(height: _fieldSpacing),
           CalendarDropdownWidget(
             label: 'Calendar',
-            controller: calendarController,
             required: true,
+            controller: calendarController,
           ),
           SizedBox(height: _fieldSpacing),
           Row(
@@ -61,9 +61,9 @@ class TaskFormWidget extends StatelessWidget {
               Flexible(
                 flex: 1,
                 child: ColorDropdownWidget(
-                  label: "Color",
-                  controller: colorController,
+                  label: 'Color',
                   required: true,
+                  controller: colorController,
                 ),
               ),
             ],

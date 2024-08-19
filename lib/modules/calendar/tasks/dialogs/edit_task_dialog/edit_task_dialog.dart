@@ -65,8 +65,7 @@ class EditTaskDialog extends StatelessWidget {
             children: [
               FilledButton(
                 onPressed: () {
-                  _validateFormAndUpdateTask();
-                  Navigator.pop(context);
+                  _validateFormAndUpdateTask(context);
                 },
                 child: const Text('Update Task'),
               ),
@@ -87,7 +86,7 @@ class EditTaskDialog extends StatelessWidget {
     );
   }
 
-  void _validateFormAndUpdateTask() {
+  void _validateFormAndUpdateTask(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       _presenter.updateTask(
         initialTask.calendarId,
@@ -99,6 +98,8 @@ class EditTaskDialog extends StatelessWidget {
         _workLeftController.text,
         _importanceController.text,
       );
+
+      Navigator.pop(context);
     }
   }
 

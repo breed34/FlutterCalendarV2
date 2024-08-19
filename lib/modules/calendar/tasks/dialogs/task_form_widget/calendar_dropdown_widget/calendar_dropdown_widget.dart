@@ -1,84 +1,99 @@
+import 'package:calendar_v2/constants.dart';
 import 'package:calendar_v2/models/calendar.dart';
 import 'package:calendar_v2/modules/calendar/tasks/dialogs/task_form_widget/calendar_dropdown_widget/calendar_dropdown_widget_presenter.dart';
 import 'package:calendar_v2/shared/base_dropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 
-class CalendarDropdownWidget extends BaseDropdown<Calendar> {
+class CalendarDropdownWidget extends StatefulWidget {
   final String label;
+  final bool required;
+  late final DropdownController<Calendar> _controller;
 
   CalendarDropdownWidget({
     required this.label,
-    super.controller,
-    super.required = false,
+    this.required = false,
+    controller,
     super.key,
-  });
+  }) {
+    _controller = controller ?? DropdownController();
+  }
 
   @override
   State<CalendarDropdownWidget> createState() => _CalendarDropdownWidgetState();
 }
 
-class _CalendarDropdownWidgetState
-    extends BaseDropdownState<Calendar, CalendarDropdownWidget> {
+class _CalendarDropdownWidgetState extends State<CalendarDropdownWidget> {
   final CalendarDropdownWidgetPresenter _presenter =
       CalendarDropdownWidgetPresenter();
-  Widget? _trailingIcon;
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<Calendar>>(
-      stream: _presenter.getCalendars(),
-      builder: (context, snapshot) {
-        Calendar? initialSelection;
-
-        if (getControllerValue()?.id != null) {
-          initialSelection = snapshot.data
-              ?.firstWhere((c) => c.id == getControllerValue()?.id);
-          _trailingIcon = _getTrailingIcon(initialSelection);
-        }
-
-        return FormField<Calendar>(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: validate,
-          builder: (state) => DropdownMenu<Calendar>(
-            label: Text(widget.label),
-            requestFocusOnTap: false,
-            dropdownMenuEntries: _buildDropdownMenuEntries(snapshot.data),
-            initialSelection: initialSelection,
-            expandedInsets: EdgeInsets.zero,
-            trailingIcon: _trailingIcon,
-            errorText: state.errorText,
-            onSelected: (value) {
-              setControllerValue(value);
-              state.didChange(value);
-              setState(() {
-                _trailingIcon = _getTrailingIcon(value);
-              });
-            },
+    return StreamBuilder(
+      stream: Rx.combineLatest2(
+        widget._controller.getStream(),
+        _presenter.getCalendars(),
+        (value, calendars) => {
+          "value": value,
+          "calendars": calendars,
+        },
+      ),
+      builder: (context, snapshot) => FormField<Calendar>(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: _validate,
+        initialValue: snapshot.data?['value'] as Calendar?,
+        builder: (state) => DropdownMenu<Calendar>(
+          label: Text(widget.label),
+          requestFocusOnTap: false,
+          expandedInsets: EdgeInsets.zero,
+          trailingIcon: _getTrailingIcon(snapshot.data?['value'] as Calendar?),
+          errorText: state.errorText,
+          initialSelection: snapshot.data?['value'] as Calendar?,
+          dropdownMenuEntries: _buildDropdownMenuEntries(
+            snapshot.data?["calendars"] as List<Calendar>?,
           ),
-        );
-      },
+          onSelected: (value) {
+            state.didChange(value);
+            widget._controller.value = value;
+          },
+        ),
+      ),
     );
+  }
+
+  String? _validate(Calendar? value) {
+    if (value == null && widget.required) {
+      return Constants.requiredError;
+    }
+
+    return null;
   }
 
   List<DropdownMenuEntry<Calendar>> _buildDropdownMenuEntries(
       List<Calendar>? calendars) {
-    return (calendars ?? [])
-        .map((c) => DropdownMenuEntry(
-              value: c,
-              label: c.name,
-              trailingIcon: _getTrailingIcon(c),
-            ))
+    if (calendars == null) {
+      return [];
+    }
+
+    return calendars
+        .map(
+          (c) => DropdownMenuEntry<Calendar>(
+            value: c,
+            label: c.name,
+            trailingIcon: _getTrailingIcon(c),
+          ),
+        )
         .toList();
   }
 
-  Widget? _getTrailingIcon(Calendar? calendar) {
-    if (calendar == null) {
+  Widget? _getTrailingIcon(Calendar? value) {
+    if (value == null) {
       return null;
     }
 
     return Icon(
       Icons.circle,
-      color: calendar.defaultTaskColor.color,
+      color: value.defaultTaskColor.color,
     );
   }
 }

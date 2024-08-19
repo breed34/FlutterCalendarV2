@@ -43,8 +43,7 @@ class AddTaskDialog extends StatelessWidget {
           ),
           FilledButton(
             onPressed: () {
-              _validateFormAndCreateTask();
-              Navigator.pop(context);
+              _validateFormAndCreateTask(context);
             },
             child: const Text('Create Task'),
           ),
@@ -53,7 +52,7 @@ class AddTaskDialog extends StatelessWidget {
     );
   }
 
-  void _validateFormAndCreateTask() {
+  void _validateFormAndCreateTask(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       _presenter.createTask(
         _nameController.text,
@@ -63,6 +62,8 @@ class AddTaskDialog extends StatelessWidget {
         _workLeftController.text,
         _importanceController.text,
       );
+
+      Navigator.pop(context);
     }
   }
 }
