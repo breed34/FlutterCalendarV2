@@ -1,5 +1,6 @@
 import 'package:calendar_v2/modules/calendar/tasks/task_calendar/calendar_widget/calendar_widget.dart';
 import 'package:calendar_v2/modules/calendar/tasks/task_calendar/task_calendar_presenter.dart';
+import 'package:calendar_v2/modules/calendar/tasks/task_scaffold.dart';
 import 'package:flutter/material.dart';
 
 class TaskCalendarView extends StatefulWidget {
@@ -23,8 +24,8 @@ class _TaskCalendarViewState extends State<TaskCalendarView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Calendar")),
+    return TaskScaffold(
+      title: 'Calendar',
       body: Center(
         child: Column(
           children: [

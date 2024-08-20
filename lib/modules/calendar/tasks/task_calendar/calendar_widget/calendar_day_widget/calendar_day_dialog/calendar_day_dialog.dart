@@ -1,6 +1,6 @@
 import 'package:calendar_v2/models/task.dart';
-import 'package:calendar_v2/modules/calendar/tasks/dialogs/add_task_dialog/add_task_dialog.dart';
-import 'package:calendar_v2/modules/calendar/tasks/dialogs/edit_task_dialog/edit_task_dialog.dart';
+import 'package:calendar_v2/modules/calendar/tasks/dialogs/task_dialogs/add_task_dialog/add_task_dialog.dart';
+import 'package:calendar_v2/modules/calendar/tasks/dialogs/task_dialogs/edit_task_dialog/edit_task_dialog.dart';
 import 'package:calendar_v2/modules/calendar/tasks/task_calendar/calendar_widget/calendar_day_widget/calendar_day_dialog/calendar_day_dialog_presenter.dart';
 import 'package:calendar_v2/shared/base_dialog.dart';
 import 'package:flutter/material.dart';

@@ -15,6 +15,8 @@ class CalendarService {
   final MockUserService _userService = MockUserService();
   final Server _server = Server();
   final Uuid _uuid = const Uuid();
+  final BehaviorSubject<List<String>> _calendarIdsToHide =
+      BehaviorSubject.seeded([]);
   final BehaviorSubject<List<Calendar>> _calendars =
       BehaviorSubject<List<Calendar>>();
 
@@ -56,7 +58,8 @@ class CalendarService {
       _calendars.sink.add(_server.getCalendars(_userService.getUserId()));
     }
 
-    return _calendars.map((cs) => cs.expand((c) => c.tasks).toList());
+    return getFilteredCalendars()
+        .map((cs) => cs.expand((c) => c.tasks).toList());
   }
 
   void updateTask(
@@ -151,6 +154,15 @@ class CalendarService {
     return _calendars.stream;
   }
 
+  Stream<List<Calendar>> getFilteredCalendars() {
+    if (!_calendars.hasValue) {
+      _calendars.sink.add(_server.getCalendars(_userService.getUserId()));
+    }
+
+    return _calendars.stream.withLatestFrom(_calendarIdsToHide,
+        (cs, cids) => cs.where((c) => !cids.contains(c.id)).toList());
+  }
+
   void updateCalendar(
     String calendarId,
     String? name,
@@ -170,6 +182,18 @@ class CalendarService {
       name: calendarToUpdate.name,
       defaultTaskColor: calendarToUpdate.defaultTaskColor,
     ));
+  }
+
+  void hideCalendar(String calendarId) {
+    var calendarIds = _calendarIdsToHide.value;
+    calendarIds.add(calendarId);
+    _calendarIdsToHide.sink.add(calendarIds);
+  }
+
+  void showCalendar(String calendarId) {
+    var calendarIds = _calendarIdsToHide.value;
+    calendarIds.remove(calendarId);
+    _calendarIdsToHide.sink.add(calendarIds);
   }
 
   void deleteCalendar(String calendarId) {

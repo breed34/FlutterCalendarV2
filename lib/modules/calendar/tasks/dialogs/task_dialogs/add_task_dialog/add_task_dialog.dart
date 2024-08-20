@@ -1,7 +1,7 @@
 import 'package:calendar_v2/models/calendar.dart';
 import 'package:calendar_v2/models/enums.dart';
-import 'package:calendar_v2/modules/calendar/tasks/dialogs/add_task_dialog/add_task_dialog_presenter.dart';
-import 'package:calendar_v2/modules/calendar/tasks/dialogs/task_form_widget/task_form_widget.dart';
+import 'package:calendar_v2/modules/calendar/tasks/dialogs/task_dialogs/add_task_dialog/add_task_dialog_presenter.dart';
+import 'package:calendar_v2/modules/calendar/tasks/dialogs/task_dialogs/task_form_widget/task_form_widget.dart';
 import 'package:calendar_v2/shared/base_dialog.dart';
 import 'package:calendar_v2/shared/base_dropdown.dart';
 import 'package:flutter/material.dart';

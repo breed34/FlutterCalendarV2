@@ -1,5 +1,5 @@
 import 'package:calendar_v2/models/enums.dart';
-import 'package:calendar_v2/modules/calendar/tasks/dialogs/task_dialog_presenter.dart';
+import 'package:calendar_v2/modules/calendar/tasks/dialogs/task_dialogs/task_dialog_presenter.dart';
 import 'package:intl/intl.dart';
 
 class AddTaskDialogPresenter extends TaskDialogPresenter {

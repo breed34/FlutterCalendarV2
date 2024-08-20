@@ -1,6 +1,6 @@
 import 'package:calendar_v2/constants.dart';
 import 'package:calendar_v2/models/calendar.dart';
-import 'package:calendar_v2/modules/calendar/tasks/dialogs/task_form_widget/calendar_dropdown_widget/calendar_dropdown_widget_presenter.dart';
+import 'package:calendar_v2/modules/calendar/tasks/dialogs/task_dialogs/task_form_widget/calendar_dropdown_widget/calendar_dropdown_widget_presenter.dart';
 import 'package:calendar_v2/shared/base_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
@@ -29,7 +29,7 @@ class _CalendarDropdownWidgetState extends State<CalendarDropdownWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    return StreamBuilder<Map<String, Object?>>(
       stream: Rx.combineLatest2(
         widget._controller.getStream(),
         _presenter.getCalendars(),

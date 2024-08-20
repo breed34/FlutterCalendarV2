@@ -1,4 +1,5 @@
 import 'package:calendar_v2/modules/calendar/tasks/task_prioritizer/task_prioritizer_presenter.dart';
+import 'package:calendar_v2/modules/calendar/tasks/task_scaffold.dart';
 import 'package:flutter/material.dart';
 
 class TaskPrioritizerView extends StatelessWidget {
@@ -8,9 +9,9 @@ class TaskPrioritizerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Prioritizer")),
-      body: const Placeholder(),
+    return const TaskScaffold(
+      title: "Prioritizer",
+      body: Placeholder(),
     );
   }
 }
