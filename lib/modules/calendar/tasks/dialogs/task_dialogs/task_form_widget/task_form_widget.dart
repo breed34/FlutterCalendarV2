@@ -1,7 +1,8 @@
 import 'package:calendar_v2/models/calendar.dart';
 import 'package:calendar_v2/models/enums.dart';
 import 'package:calendar_v2/modules/calendar/tasks/dialogs/task_dialogs/task_form_widget/calendar_dropdown_widget/calendar_dropdown_widget.dart';
-import 'package:calendar_v2/modules/calendar/tasks/dialogs/task_dialogs/task_form_widget/color_dropdown_widget/color_dropdown_widget.dart';
+import 'package:calendar_v2/modules/calendar/widgets/color_dropdown_widget/color_dropdown_widget.dart';
+import 'package:calendar_v2/shared/base_checkbox_field.dart';
 import 'package:calendar_v2/shared/base_dropdown.dart';
 import 'package:calendar_v2/shared/base_input.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +17,10 @@ class TaskFormWidget extends StatelessWidget {
   final DropdownController<TaskColor> colorController;
   final TextEditingController workLeftController;
   final TextEditingController importanceController;
+  final bool showCompleted;
+  final CheckBoxController? completedController;
 
-  const TaskFormWidget({
+  TaskFormWidget({
     required this.formKey,
     required this.nameController,
     required this.calendarController,
@@ -25,8 +28,14 @@ class TaskFormWidget extends StatelessWidget {
     required this.colorController,
     required this.workLeftController,
     required this.importanceController,
+    this.showCompleted = false,
+    this.completedController,
     super.key,
-  });
+  }) {
+    if (showCompleted && completedController == null) {
+      throw Exception("Missing completed controller");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,9 +101,24 @@ class TaskFormWidget extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: _fieldSpacing),
+          SizedBox(height: _fieldSpacing / 2),
+          ..._buildCompletedField(),
         ],
       ),
     );
+  }
+
+  List<Widget> _buildCompletedField() {
+    if (showCompleted) {
+      return [
+        BaseCheckboxField(
+          label: 'Completed',
+          controller: completedController,
+        ),
+        SizedBox(height: _fieldSpacing),
+      ];
+    }
+
+    return [];
   }
 }

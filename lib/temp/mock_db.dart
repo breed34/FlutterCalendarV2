@@ -27,6 +27,7 @@ class MockDB {
               dueDate: DateTime.parse("2024-08-20"),
               workRemaining: 12.0,
               importance: 4,
+              isComplete: true,
             ),
             Task(
               id: _uuid.v4(),
@@ -36,6 +37,7 @@ class MockDB {
               dueDate: DateTime.parse("2024-08-23"),
               workRemaining: 6.0,
               importance: 2,
+              isComplete: false,
             ),
           ],
         ),
@@ -52,6 +54,7 @@ class MockDB {
               dueDate: DateTime.parse("2024-08-21"),
               workRemaining: 12.0,
               importance: 4,
+              isComplete: false,
             ),
             Task(
               id: _uuid.v4(),
@@ -61,6 +64,7 @@ class MockDB {
               dueDate: DateTime.parse("2024-08-24"),
               workRemaining: 6.0,
               importance: 2,
+              isComplete: false,
             ),
           ],
         ),

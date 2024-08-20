@@ -8,6 +8,7 @@ class Task {
   DateTime dueDate;
   double workRemaining;
   double importance;
+  bool isComplete;
 
   Task({
     required this.id,
@@ -17,5 +18,6 @@ class Task {
     required this.dueDate,
     required this.workRemaining,
     required this.importance,
+    required this.isComplete,
   });
 }

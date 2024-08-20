@@ -56,7 +56,8 @@ class TaskListWidget extends StatelessWidget {
     }
 
     return [
-      const Text('No tasks'),
+      const SizedBox(height: 96.0),
+      const Center(child: Text('No tasks')),
     ];
   }
 

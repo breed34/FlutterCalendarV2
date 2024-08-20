@@ -17,6 +17,7 @@ class EditTaskDialogPresenter extends TaskDialogPresenter {
     TaskColor color,
     String workRemaing,
     String importance,
+    bool isComplete,
   ) {
     service.updateTask(
       initialCalendarId,
@@ -27,6 +28,7 @@ class EditTaskDialogPresenter extends TaskDialogPresenter {
       DateFormat('MM/dd/yyyy').parse(dueDate),
       double.parse(workRemaing),
       double.parse(importance),
+      isComplete,
     );
   }
 

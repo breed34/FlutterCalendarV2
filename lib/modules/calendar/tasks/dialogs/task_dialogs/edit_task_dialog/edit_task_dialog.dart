@@ -3,6 +3,7 @@ import 'package:calendar_v2/models/enums.dart';
 import 'package:calendar_v2/models/task.dart';
 import 'package:calendar_v2/modules/calendar/tasks/dialogs/task_dialogs/edit_task_dialog/edit_task_dialog_presenter.dart';
 import 'package:calendar_v2/modules/calendar/tasks/dialogs/task_dialogs/task_form_widget/task_form_widget.dart';
+import 'package:calendar_v2/shared/base_checkbox_field.dart';
 import 'package:calendar_v2/shared/base_dialog.dart';
 import 'package:calendar_v2/shared/base_dropdown.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class EditTaskDialog extends StatelessWidget {
   late final DropdownController<TaskColor> _colorController;
   late final TextEditingController _workLeftController;
   late final TextEditingController _importanceController;
+  late final CheckBoxController _completedController;
 
   EditTaskDialog({required this.initialTask, super.key}) {
     _nameController = TextEditingController(
@@ -43,6 +45,10 @@ class EditTaskDialog extends StatelessWidget {
     _importanceController = TextEditingController(
       text: initialTask.importance.toString(),
     );
+
+    _completedController = CheckBoxController(
+      value: initialTask.isComplete,
+    );
   }
 
   @override
@@ -59,6 +65,8 @@ class EditTaskDialog extends StatelessWidget {
             colorController: _colorController,
             workLeftController: _workLeftController,
             importanceController: _importanceController,
+            showCompleted: true,
+            completedController: _completedController,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,6 +105,7 @@ class EditTaskDialog extends StatelessWidget {
         _colorController.value!,
         _workLeftController.text,
         _importanceController.text,
+        _completedController.value,
       );
 
       Navigator.pop(context);

@@ -43,6 +43,7 @@ class CalendarService {
       dueDate: dueDate,
       workRemaining: workRemaining,
       importance: importance,
+      isComplete: false,
     ));
 
     _calendars.sink.add(calendars);
@@ -71,6 +72,7 @@ class CalendarService {
     DateTime? dueDate,
     double? workRemaining,
     double? importance,
+    bool? isComplete,
   ) {
     List<Calendar> calendars = List.from(_calendars.value);
     Calendar currentCalendarToUpdate =
@@ -84,6 +86,7 @@ class CalendarService {
     taskToUpdate.dueDate = dueDate ?? taskToUpdate.dueDate;
     taskToUpdate.workRemaining = workRemaining ?? taskToUpdate.workRemaining;
     taskToUpdate.importance = importance ?? taskToUpdate.importance;
+    taskToUpdate.isComplete = isComplete ?? taskToUpdate.isComplete;
 
     if (newCalendarId != null && currentCalendarId != newCalendarId) {
       Calendar newCalendarToUpdate =

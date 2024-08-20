@@ -25,7 +25,7 @@ class _TaskWidgetState extends State<TaskWidget> {
         padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 4),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(5)),
-          color: widget.task.color.color,
+          color: _getTaskColor(),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,5 +58,11 @@ class _TaskWidgetState extends State<TaskWidget> {
 
   double _scaled(double defaultValue) {
     return defaultValue * (widget.scale ?? 1);
+  }
+
+  Color _getTaskColor() {
+    return widget.task.isComplete
+        ? Colors.grey[700]!
+        : widget.task.color.color!;
   }
 }
