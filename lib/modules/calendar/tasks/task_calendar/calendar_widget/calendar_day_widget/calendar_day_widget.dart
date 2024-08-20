@@ -1,6 +1,7 @@
 import 'package:calendar_v2/models/task.dart';
 import 'package:calendar_v2/modules/calendar/tasks/task_calendar/calendar_widget/calendar_day_widget/calendar_day_dialog/calendar_day_dialog.dart';
 import 'package:calendar_v2/modules/calendar/tasks/task_calendar/calendar_widget/calendar_day_widget/calendar_day_presenter.dart';
+import 'package:calendar_v2/modules/calendar/tasks/task_calendar/calendar_widget/calendar_day_widget/task_widget/task_widget.dart';
 import 'package:flutter/material.dart';
 
 class CalendarDayWidget extends StatefulWidget {
@@ -104,25 +105,6 @@ class _CalendarDayWidgetState extends State<CalendarDayWidget> {
   }
 
   List<Widget> _getTaskWidgets(List<Task>? tasks) {
-    return (tasks ?? []).map((t) {
-      return Container(
-        width: double.infinity,
-        margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 2),
-        padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 4),
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(5)),
-          color: t.color.color,
-        ),
-        child: Text(
-          t.name,
-          style: const TextStyle(
-            fontSize: 10,
-            overflow: TextOverflow.ellipsis,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      );
-    }).toList();
+    return (tasks ?? []).map((t) => TaskWidget(t)).toList();
   }
 }

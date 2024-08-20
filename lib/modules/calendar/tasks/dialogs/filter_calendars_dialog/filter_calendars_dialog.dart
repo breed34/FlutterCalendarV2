@@ -34,17 +34,22 @@ class _FilterCalendarsDialogState extends State<FilterCalendarsDialog> {
     }
 
     return calendars
-        .map((c) => Row(
-              children: [
-                Text(c.calendar.name),
-                Checkbox(
-                  value: c.show,
-                  onChanged: (value) {
-                    c.show = !c.show;
-                    _presenter.hideShowCalendar(c);
-                  },
-                ),
-              ],
+        .map((c) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(c.calendar.name),
+                  Checkbox(
+                    activeColor: c.calendar.defaultTaskColor.color,
+                    value: c.show,
+                    onChanged: (value) {
+                      c.show = value!;
+                      _presenter.hideShowCalendar(c);
+                    },
+                  ),
+                ],
+              ),
             ))
         .toList();
   }

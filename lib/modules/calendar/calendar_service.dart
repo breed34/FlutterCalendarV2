@@ -159,7 +159,7 @@ class CalendarService {
       _calendars.sink.add(_server.getCalendars(_userService.getUserId()));
     }
 
-    return _calendars.stream.withLatestFrom(_calendarIdsToHide,
+    return Rx.combineLatest2(_calendars.stream, _calendarIdsToHide,
         (cs, cids) => cs.where((c) => !cids.contains(c.id)).toList());
   }
 

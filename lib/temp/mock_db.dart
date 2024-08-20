@@ -42,7 +42,7 @@ class MockDB {
         Calendar(
           id: calendar2Id,
           name: "Calendar 2",
-          defaultTaskColor: TaskColor.blue,
+          defaultTaskColor: TaskColor.green,
           tasks: [
             Task(
               id: _uuid.v4(),

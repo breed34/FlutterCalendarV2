@@ -2,6 +2,7 @@ import 'package:calendar_v2/models/task.dart';
 import 'package:calendar_v2/modules/calendar/tasks/dialogs/task_dialogs/add_task_dialog/add_task_dialog.dart';
 import 'package:calendar_v2/modules/calendar/tasks/dialogs/task_dialogs/edit_task_dialog/edit_task_dialog.dart';
 import 'package:calendar_v2/modules/calendar/tasks/task_calendar/calendar_widget/calendar_day_widget/calendar_day_dialog/calendar_day_dialog_presenter.dart';
+import 'package:calendar_v2/modules/calendar/tasks/task_calendar/calendar_widget/calendar_day_widget/task_widget/task_widget.dart';
 import 'package:calendar_v2/shared/base_dialog.dart';
 import 'package:flutter/material.dart';
 
@@ -45,24 +46,9 @@ class CalendarDayDialog extends StatelessWidget {
           onTap: () {
             _openEditTaskDialog(context, task);
           },
-          child: SizedBox(
-            width: double.infinity,
-            child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-              margin: const EdgeInsets.symmetric(vertical: 2.0),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                color: task.color.color,
-              ),
-              child: Text(
-                task.name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-            ),
+          child: TaskWidget(
+            task,
+            scale: 1.5,
           ),
         );
       }).toList();

@@ -16,7 +16,8 @@ class FilterCalendarsDialogPresenter {
   final CalendarService _service = CalendarService();
 
   Stream<List<FilterCalendar>> getFilterCalendars() {
-    return _service.getCalendars().withLatestFrom(
+    return Rx.combineLatest2(
+        _service.getCalendars(),
         _service.getFilteredCalendars(),
         (cs, fcs) => cs
             .map((c) => FilterCalendar(calendar: c, show: fcs.contains(c)))
