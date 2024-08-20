@@ -2,6 +2,7 @@ import 'package:calendar_v2/modules/calendar/tasks/task_calendar/calendar_widget
 import 'package:calendar_v2/modules/calendar/tasks/task_calendar/task_calendar_presenter.dart';
 import 'package:calendar_v2/modules/calendar/tasks/task_scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class TaskCalendarView extends StatefulWidget {
   const TaskCalendarView({super.key});
@@ -26,6 +27,14 @@ class _TaskCalendarViewState extends State<TaskCalendarView> {
   Widget build(BuildContext context) {
     return TaskScaffold(
       title: 'Calendar',
+      actions: [
+        IconButton(
+          onPressed: () {
+            context.go('/tasks/prioritizer');
+          },
+          icon: const Icon(Icons.check_box_outlined),
+        ),
+      ],
       body: Center(
         child: Column(
           children: [
