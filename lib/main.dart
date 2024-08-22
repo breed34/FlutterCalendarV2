@@ -1,8 +1,21 @@
-import 'package:calendar_v2/router.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
+import 'package:calendar_v2/routes.dart';
 import 'package:calendar_v2/theme.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+Future main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  FirebaseUIAuth.configureProviders([
+    EmailAuthProvider(),
+  ]);
+
   runApp(const App());
 }
 
@@ -11,9 +24,10 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return MaterialApp(
       theme: theme,
-      routerConfig: router,
+      initialRoute: initialRoute,
+      routes: routes,
       debugShowCheckedModeBanner: false,
     );
   }

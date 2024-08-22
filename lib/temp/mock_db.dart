@@ -1,6 +1,6 @@
-import 'package:calendar_v2/models/calendar.dart';
-import 'package:calendar_v2/models/enums.dart';
-import 'package:calendar_v2/models/task.dart';
+import 'package:calendar_v2/server/models/calendar.dart';
+import 'package:calendar_v2/server/models/enums.dart';
+import 'package:calendar_v2/server/models/task.dart';
 import 'package:uuid/uuid.dart';
 
 class MockDB {

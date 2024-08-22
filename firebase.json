@@ -1,0 +1,34 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "calendar-90df6",
+          "appId": "1:849856874232:android:3bdbae0e6a65c5c7d21d0d",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "calendar-90df6",
+          "configurations": {
+            "android": "1:849856874232:android:3bdbae0e6a65c5c7d21d0d",
+            "web": "1:849856874232:web:0ee127ebfea2525dd21d0d"
+          }
+        }
+      }
+    }
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "ui": {
+      "enabled": true
+    },
+    "singleProjectMode": true
+  }
+}
