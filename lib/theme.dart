@@ -26,4 +26,7 @@ var theme = ThemeData(
       isDense: true,
     ),
   ),
+  dialogTheme: const DialogTheme(
+    backgroundColor: Colors.white,
+  ),
 );

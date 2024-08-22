@@ -68,7 +68,6 @@ abstract class _AbstractInput extends StatelessWidget {
     required this.initialValue,
     required this.controller,
     this.customValidator,
-    super.key,
   });
 
   @override
@@ -98,7 +97,6 @@ class _BaseTextInput extends _AbstractInput {
     required super.required,
     required super.initialValue,
     required super.controller,
-    super.key,
   });
 
   @override
@@ -121,7 +119,6 @@ class _BaseDateTimeInput extends _AbstractInput {
     required super.required,
     required super.initialValue,
     required super.controller,
-    super.key,
   }) : super(customValidator: _validateDate);
 
   @override
@@ -161,7 +158,6 @@ class _BaseDecimalInput extends _AbstractInput {
     required super.required,
     required super.initialValue,
     required super.controller,
-    super.key,
   }) : super(customValidator: _validateDecimal);
 
   @override

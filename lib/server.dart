@@ -3,17 +3,15 @@ import 'package:calendar_v2/dtos/delete_calendar_request.dart';
 import 'package:calendar_v2/dtos/update_calendar_request.dart';
 import 'package:calendar_v2/temp/mock_db.dart';
 import 'package:calendar_v2/models/calendar.dart';
-import 'package:uuid/uuid.dart';
 
 class Server {
-  final Uuid _uuid = const Uuid();
   final MockDB _db = MockDB();
 
   Server();
 
   void createCalendar(CreateCalendarRequest request) {
     var calendar = Calendar(
-      id: _uuid.v4(),
+      id: request.calendarId,
       name: request.name,
       defaultTaskColor: request.defaultTaskColor,
       tasks: [],
