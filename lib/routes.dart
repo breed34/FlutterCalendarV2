@@ -1,5 +1,5 @@
-import 'package:calendar_v2/tasks/task_calendar/task_calendar_view.dart';
-import 'package:calendar_v2/tasks/task_prioritizer/task_prioritizer_view.dart';
+import 'package:calendar_v2/tasks/task_views/task_calendar/task_calendar_view.dart';
+import 'package:calendar_v2/tasks/task_views/task_prioritizer/task_prioritizer_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
