@@ -10,13 +10,15 @@ var initialRoute = FirebaseAuth.instance.currentUser == null
 
 var routes = {
   '/login': (BuildContext context) => SignInScreen(
+        showAuthActionSwitch: false,
         actions: [
           AuthStateChangeAction<SignedIn>((context, state) {
             Navigator.pushReplacementNamed(context, '/assignments/calendar');
-          })
+          }),
         ],
       ),
-  '/assignments/calendar': (BuildContext context) => AssignmentCalendarView(),
+  '/assignments/calendar': (BuildContext context) =>
+      const AssignmentCalendarView(),
   '/assignments/prioritizer': (BuildContext context) =>
       AssignmentPrioritizerView(),
 };

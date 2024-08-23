@@ -93,7 +93,7 @@ class AssignmentFormWidget extends StatelessWidget {
               Flexible(
                 flex: 1,
                 child: BaseInput(
-                  label: "Percent Of Grade",
+                  label: "% Of Grade",
                   type: BaseInputType.decimal,
                   required: true,
                   controller: percentOfGradeController,
