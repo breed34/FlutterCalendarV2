@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-enum TaskColor {
+enum AssignmentColor {
   none,
   blue(color: Colors.blue),
   red(color: Colors.red),
   green(color: Colors.green);
 
-  const TaskColor({this.color});
+  const AssignmentColor({this.color});
 
   final Color? color;
 }

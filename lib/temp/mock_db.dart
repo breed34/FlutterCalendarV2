@@ -1,69 +1,69 @@
-import 'package:calendar_v2/server/models/calendar.dart';
+import 'package:calendar_v2/server/models/assignment.dart';
+import 'package:calendar_v2/server/models/course.dart';
 import 'package:calendar_v2/server/models/enums.dart';
-import 'package:calendar_v2/server/models/task.dart';
 import 'package:uuid/uuid.dart';
 
 class MockDB {
   static final MockDB _instance = MockDB._();
   final Uuid _uuid = const Uuid();
-  late final Map<String, List<Calendar>> entries;
+  late final Map<String, List<Course>> entries;
 
   MockDB._() {
-    String calendar1Id = _uuid.v4();
-    String calendar2Id = _uuid.v4();
+    String course1Id = _uuid.v4();
+    String course2Id = _uuid.v4();
 
     entries = {
       'abc': [
-        Calendar(
-          id: calendar1Id,
-          name: "Calendar 1",
-          defaultTaskColor: TaskColor.blue,
-          tasks: [
-            Task(
+        Course(
+          id: course1Id,
+          name: "Course 1",
+          defaultAssignmentColor: AssignmentColor.blue,
+          assignments: [
+            Assignment(
               id: _uuid.v4(),
-              calendarId: calendar1Id,
-              name: "Task 1",
-              color: TaskColor.green,
+              courseId: course1Id,
+              name: "Assignment 1",
+              color: AssignmentColor.green,
               dueDate: DateTime.parse("2024-08-20"),
               workRemaining: 12.0,
-              importance: 4,
+              percentOfGrade: 4,
               isComplete: true,
             ),
-            Task(
+            Assignment(
               id: _uuid.v4(),
-              calendarId: calendar1Id,
-              name: "Task 2",
-              color: TaskColor.red,
+              courseId: course1Id,
+              name: "Assignment 2",
+              color: AssignmentColor.red,
               dueDate: DateTime.parse("2024-08-23"),
               workRemaining: 6.0,
-              importance: 2,
+              percentOfGrade: 2,
               isComplete: false,
             ),
           ],
         ),
-        Calendar(
-          id: calendar2Id,
-          name: "Calendar 2",
-          defaultTaskColor: TaskColor.green,
-          tasks: [
-            Task(
+        Course(
+          id: course2Id,
+          name: "Course 2",
+          defaultAssignmentColor: AssignmentColor.green,
+          assignments: [
+            Assignment(
               id: _uuid.v4(),
-              calendarId: calendar2Id,
-              name: "Task 3",
-              color: TaskColor.green,
+              courseId: course2Id,
+              name: "Assignment 3",
+              color: AssignmentColor.green,
               dueDate: DateTime.parse("2024-08-21"),
               workRemaining: 12.0,
-              importance: 4,
+              percentOfGrade: 4,
               isComplete: false,
             ),
-            Task(
+            Assignment(
               id: _uuid.v4(),
-              calendarId: calendar2Id,
-              name: "Task 4",
-              color: TaskColor.red,
+              courseId: course2Id,
+              name: "Assignment 4",
+              color: AssignmentColor.red,
               dueDate: DateTime.parse("2024-08-24"),
               workRemaining: 6.0,
-              importance: 2,
+              percentOfGrade: 2,
               isComplete: false,
             ),
           ],

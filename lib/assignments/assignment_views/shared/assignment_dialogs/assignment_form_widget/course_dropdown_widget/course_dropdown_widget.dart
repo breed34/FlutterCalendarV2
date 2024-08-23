@@ -1,0 +1,99 @@
+import 'package:calendar_v2/constants.dart';
+import 'package:calendar_v2/server/models/course.dart';
+import 'package:calendar_v2/assignments/assignment_views/shared/assignment_dialogs/assignment_form_widget/course_dropdown_widget/course_dropdown_widget_presenter.dart';
+import 'package:calendar_v2/assignments/shared/base_dropdown.dart';
+import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
+
+class CourseDropdownWidget extends StatefulWidget {
+  final String label;
+  final bool required;
+  late final DropdownController<Course> _controller;
+
+  CourseDropdownWidget({
+    required this.label,
+    this.required = false,
+    controller,
+    super.key,
+  }) {
+    _controller = controller ?? DropdownController();
+  }
+
+  @override
+  State<CourseDropdownWidget> createState() => _CourseDropdownWidgetState();
+}
+
+class _CourseDropdownWidgetState extends State<CourseDropdownWidget> {
+  final CourseDropdownWidgetPresenter _presenter =
+      CourseDropdownWidgetPresenter();
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<Map<String, Object?>>(
+      stream: Rx.combineLatest2(
+        widget._controller.getStream(),
+        _presenter.getCourses(),
+        (value, courses) => {
+          "value": value,
+          "courses": courses,
+        },
+      ),
+      builder: (context, snapshot) => FormField<Course>(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: _validate,
+        initialValue: snapshot.data?['value'] as Course?,
+        builder: (state) => DropdownMenu<Course>(
+          label: Text(widget.label),
+          requestFocusOnTap: false,
+          expandedInsets: EdgeInsets.zero,
+          trailingIcon: _getTrailingIcon(snapshot.data?['value'] as Course?),
+          errorText: state.errorText,
+          initialSelection: snapshot.data?['value'] as Course?,
+          dropdownMenuEntries: _buildDropdownMenuEntries(
+            snapshot.data?["courses"] as List<Course>?,
+          ),
+          onSelected: (value) {
+            state.didChange(value);
+            widget._controller.value = value;
+          },
+        ),
+      ),
+    );
+  }
+
+  String? _validate(Course? value) {
+    if (value == null && widget.required) {
+      return Constants.requiredError;
+    }
+
+    return null;
+  }
+
+  List<DropdownMenuEntry<Course>> _buildDropdownMenuEntries(
+      List<Course>? courses) {
+    if (courses == null) {
+      return [];
+    }
+
+    return courses
+        .map(
+          (c) => DropdownMenuEntry<Course>(
+            value: c,
+            label: c.name,
+            trailingIcon: _getTrailingIcon(c),
+          ),
+        )
+        .toList();
+  }
+
+  Widget? _getTrailingIcon(Course? value) {
+    if (value == null) {
+      return null;
+    }
+
+    return Icon(
+      Icons.circle,
+      color: value.defaultAssignmentColor.color,
+    );
+  }
+}

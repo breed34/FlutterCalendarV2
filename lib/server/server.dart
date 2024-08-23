@@ -1,46 +1,46 @@
-import 'package:calendar_v2/server/dtos/create_calendar_request.dart';
-import 'package:calendar_v2/server/dtos/delete_calendar_request.dart';
-import 'package:calendar_v2/server/dtos/update_calendar_request.dart';
+import 'package:calendar_v2/server/dtos/create_course_request.dart';
+import 'package:calendar_v2/server/dtos/delete_course_request.dart';
+import 'package:calendar_v2/server/dtos/update_course_request.dart';
+import 'package:calendar_v2/server/models/course.dart';
 import 'package:calendar_v2/temp/mock_db.dart';
-import 'package:calendar_v2/server/models/calendar.dart';
 
 class Server {
   final MockDB _db = MockDB();
 
   Server();
 
-  void createCalendar(CreateCalendarRequest request) {
-    var calendar = Calendar(
-      id: request.calendarId,
+  void createCourse(CreateCourseRequest request) {
+    var course = Course(
+      id: request.courseId,
       name: request.name,
-      defaultTaskColor: request.defaultTaskColor,
-      tasks: [],
+      defaultAssignmentColor: request.defaultAssignmentColor,
+      assignments: [],
     );
 
-    _db.entries[request.userId]!.add(calendar);
+    _db.entries[request.userId]!.add(course);
   }
 
-  List<Calendar> getCalendars(String userId) {
+  List<Course> getCourses(String userId) {
     return _db.entries[userId]!;
   }
 
-  void updateCalendar(UpdateCalendarRequest request) {
-    var existingCalendarIndex = _db.entries[request.userId]!
-        .indexWhere((c) => c.id == request.calendarId);
-    var existingCalendar = _db.entries[request.userId]![existingCalendarIndex];
+  void updateCourse(UpdateCourseRequest request) {
+    var existingCourseIndex = _db.entries[request.userId]!
+        .indexWhere((c) => c.id == request.courseId);
+    var existingCourse = _db.entries[request.userId]![existingCourseIndex];
 
-    var newCalendar = Calendar(
-      id: existingCalendar.id,
-      name: request.name ?? existingCalendar.name,
-      defaultTaskColor:
-          request.defaultTaskColor ?? existingCalendar.defaultTaskColor,
-      tasks: request.tasks ?? existingCalendar.tasks,
+    var newCourse = Course(
+      id: existingCourse.id,
+      name: request.name ?? existingCourse.name,
+      defaultAssignmentColor: request.defaultAssignmentColor ??
+          existingCourse.defaultAssignmentColor,
+      assignments: request.assignments ?? existingCourse.assignments,
     );
 
-    _db.entries[request.userId]![existingCalendarIndex] = newCalendar;
+    _db.entries[request.userId]![existingCourseIndex] = newCourse;
   }
 
-  void deleteCalendar(DeleteCalendarRequest request) {
-    _db.entries[request.userId]!.removeWhere((c) => c.id == request.calendarId);
+  void deleteCourse(DeleteCourseRequest request) {
+    _db.entries[request.userId]!.removeWhere((c) => c.id == request.courseId);
   }
 }
