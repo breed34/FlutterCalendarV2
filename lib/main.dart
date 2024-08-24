@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:calendar_v2/routes.dart';
 import 'package:calendar_v2/theme.dart';
@@ -14,6 +15,7 @@ Future main() async {
 
   if (const String.fromEnvironment('env') == 'local') {
     await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
   }
 
   FirebaseUIAuth.configureProviders([

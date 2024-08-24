@@ -2,10 +2,10 @@ import 'package:calendar_v2/server/dtos/create_course_request.dart';
 import 'package:calendar_v2/server/dtos/delete_course_request.dart';
 import 'package:calendar_v2/server/dtos/update_course_request.dart';
 import 'package:calendar_v2/server/models/course.dart';
-import 'package:calendar_v2/temp/mock_db.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Server {
-  final MockDB _db = MockDB();
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Server();
 
@@ -17,30 +17,31 @@ class Server {
       assignments: [],
     );
 
-    _db.entries[request.userId]!.add(course);
+    _db
+        .collection('courses')
+        .doc(request.courseId)
+        .set(course.toFirestore(request.userId));
   }
 
-  List<Course> getCourses(String userId) {
-    return _db.entries[userId]!;
+  Future<List<Course>> getCourses(String userId) async {
+    var snapshot = await _db
+        .collection('courses')
+        .where('userId', isEqualTo: userId)
+        .get();
+    return snapshot.docs.map((d) => Course.fromFirestore(d)).toList();
   }
 
   void updateCourse(UpdateCourseRequest request) {
-    var existingCourseIndex = _db.entries[request.userId]!
-        .indexWhere((c) => c.id == request.courseId);
-    var existingCourse = _db.entries[request.userId]![existingCourseIndex];
-
-    var newCourse = Course(
-      id: existingCourse.id,
-      name: request.name ?? existingCourse.name,
-      defaultAssignmentColor: request.defaultAssignmentColor ??
-          existingCourse.defaultAssignmentColor,
-      assignments: request.assignments ?? existingCourse.assignments,
-    );
-
-    _db.entries[request.userId]![existingCourseIndex] = newCourse;
+    _db.collection('courses').doc(request.courseId).update({
+      if (request.name != null) 'name': request.name,
+      if (request.defaultAssignmentColor != null)
+        'defaultAssignmentColor': request.defaultAssignmentColor!.index,
+      if (request.assignments != null)
+        'assignments': request.assignments!.map((a) => a.toFirestore()),
+    });
   }
 
   void deleteCourse(DeleteCourseRequest request) {
-    _db.entries[request.userId]!.removeWhere((c) => c.id == request.courseId);
+    _db.collection('courses').doc(request.courseId).delete();
   }
 }

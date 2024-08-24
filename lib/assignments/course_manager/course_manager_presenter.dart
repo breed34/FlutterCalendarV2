@@ -4,7 +4,7 @@ import 'package:calendar_v2/assignments/assignment_service.dart';
 class CourseManagerPresenter {
   final AssignmentService _service = AssignmentService();
 
-  Stream<List<Course>> getCourses() {
-    return _service.getCourses();
+  Future<Stream<List<Course>>> getCourses() async {
+    return await _service.getCourses();
   }
 }

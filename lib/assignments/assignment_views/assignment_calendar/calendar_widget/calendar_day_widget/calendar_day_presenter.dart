@@ -7,9 +7,8 @@ class CalendarDayPresenter {
 
   CalendarDayPresenter(this.day);
 
-  Stream<List<Assignment>> getAssignments() {
-    return _service
-        .getFilteredAssignments()
+  Future<Stream<List<Assignment>>> getAssignments() async {
+    return (await _service.getFilteredAssignments())
         .map((ts) => ts.where((t) => _isSameDay(day, t.dueDate)).toList());
   }
 

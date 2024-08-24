@@ -4,8 +4,8 @@ import 'package:calendar_v2/assignments/assignment_views/shared/assignment_dialo
 import 'package:intl/intl.dart';
 
 class EditAssignmentDialogPresenter extends AssignmentDialogPresenter {
-  Course getCourseById(String courseId) {
-    return service.getCourseById(courseId);
+  Future<Course> getCourseById(String courseId) async {
+    return await service.getCourseById(courseId);
   }
 
   void updateAssignment(

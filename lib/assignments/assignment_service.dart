@@ -5,14 +5,14 @@ import 'package:calendar_v2/server/models/assignment.dart';
 import 'package:calendar_v2/server/models/course.dart';
 import 'package:calendar_v2/server/models/enums.dart';
 import 'package:calendar_v2/server/server.dart';
-import 'package:calendar_v2/temp/mock_user_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
 class AssignmentService {
   static final AssignmentService _instance = AssignmentService._();
 
-  final MockUserService _userService = MockUserService();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final Server _server = Server();
   final Uuid _uuid = const Uuid();
   final BehaviorSubject<List<String>> _courseIdsToHide =
@@ -48,18 +48,18 @@ class AssignmentService {
 
     _courses.sink.add(courses);
     _server.updateCourse(UpdateCourseRequest(
-      userId: _userService.getUserId(),
+      userId: _auth.currentUser!.uid,
       courseId: ccourseToUpdate.id,
       assignments: ccourseToUpdate.assignments,
     ));
   }
 
-  Stream<List<Assignment>> getFilteredAssignments() {
+  Future<Stream<List<Assignment>>> getFilteredAssignments() async {
     if (!_courses.hasValue) {
-      _courses.sink.add(_server.getCourses(_userService.getUserId()));
+      await _loadCoursesFromDB();
     }
 
-    return getFilteredCourses()
+    return (await getFilteredCourses())
         .map((cs) => cs.expand((c) => c.assignments).toList());
   }
 
@@ -98,7 +98,7 @@ class AssignmentService {
       newCourseToUpdate.assignments.add(assignmentToUpdate);
 
       _server.updateCourse(UpdateCourseRequest(
-        userId: _userService.getUserId(),
+        userId: _auth.currentUser!.uid,
         courseId: newCourseToUpdate.id,
         assignments: newCourseToUpdate.assignments,
       ));
@@ -106,7 +106,7 @@ class AssignmentService {
 
     _courses.sink.add(courses);
     _server.updateCourse(UpdateCourseRequest(
-      userId: _userService.getUserId(),
+      userId: _auth.currentUser!.uid,
       courseId: currentCourseToUpdate.id,
       assignments: currentCourseToUpdate.assignments,
     ));
@@ -120,7 +120,7 @@ class AssignmentService {
 
     _courses.sink.add(courses);
     _server.updateCourse(UpdateCourseRequest(
-      userId: _userService.getUserId(),
+      userId: _auth.currentUser!.uid,
       courseId: courseToUpdate.id,
       assignments: courseToUpdate.assignments,
     ));
@@ -138,32 +138,32 @@ class AssignmentService {
 
     _courses.sink.add(courses);
     _server.createCourse(CreateCourseRequest(
-      userId: _userService.getUserId(),
+      userId: _auth.currentUser!.uid,
       courseId: courseId,
       name: name,
       defaultAssignmentColor: defaultAssignmentColor,
     ));
   }
 
-  Course getCourseById(String courseId) {
+  Future<Course> getCourseById(String courseId) async {
     if (!_courses.hasValue) {
-      _courses.sink.add(_server.getCourses(_userService.getUserId()));
+      await _loadCoursesFromDB();
     }
 
     return _courses.value.firstWhere((c) => c.id == courseId);
   }
 
-  Stream<List<Course>> getCourses() {
+  Future<Stream<List<Course>>> getCourses() async {
     if (!_courses.hasValue) {
-      _courses.sink.add(_server.getCourses(_userService.getUserId()));
+      await _loadCoursesFromDB();
     }
 
     return _courses.stream;
   }
 
-  Stream<List<Course>> getFilteredCourses() {
+  Future<Stream<List<Course>>> getFilteredCourses() async {
     if (!_courses.hasValue) {
-      _courses.sink.add(_server.getCourses(_userService.getUserId()));
+      await _loadCoursesFromDB();
     }
 
     return Rx.combineLatest2(_courses.stream, _courseIdsToHide,
@@ -184,7 +184,7 @@ class AssignmentService {
 
     _courses.sink.add(courses);
     _server.updateCourse(UpdateCourseRequest(
-      userId: _userService.getUserId(),
+      userId: _auth.currentUser!.uid,
       courseId: courseId,
       name: courseToUpdate.name,
       defaultAssignmentColor: courseToUpdate.defaultAssignmentColor,
@@ -209,8 +209,13 @@ class AssignmentService {
 
     _courses.sink.add(courses);
     _server.deleteCourse(DeleteCourseRequest(
-      userId: _userService.getUserId(),
+      userId: _auth.currentUser!.uid,
       courseId: courseId,
     ));
+  }
+
+  Future<void> _loadCoursesFromDB() async {
+    var courses = await _server.getCourses(_auth.currentUser!.uid);
+    _courses.sink.add(courses);
   }
 }

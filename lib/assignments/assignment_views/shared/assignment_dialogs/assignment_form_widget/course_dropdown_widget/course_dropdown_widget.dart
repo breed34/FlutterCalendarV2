@@ -29,33 +29,36 @@ class _CourseDropdownWidgetState extends State<CourseDropdownWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Map<String, Object?>>(
-      stream: Rx.combineLatest2(
-        widget._controller.getStream(),
-        _presenter.getCourses(),
-        (value, courses) => {
-          "value": value,
-          "courses": courses,
-        },
-      ),
-      builder: (context, snapshot) => FormField<Course>(
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: _validate,
-        initialValue: snapshot.data?['value'] as Course?,
-        builder: (state) => DropdownMenu<Course>(
-          label: Text(widget.label),
-          requestFocusOnTap: false,
-          expandedInsets: EdgeInsets.zero,
-          trailingIcon: _getTrailingIcon(snapshot.data?['value'] as Course?),
-          errorText: state.errorText,
-          initialSelection: snapshot.data?['value'] as Course?,
-          dropdownMenuEntries: _buildDropdownMenuEntries(
-            snapshot.data?["courses"] as List<Course>?,
-          ),
-          onSelected: (value) {
-            state.didChange(value);
-            widget._controller.value = value;
+    return FutureBuilder<Stream<List<Course>>>(
+      future: _presenter.getCourses(),
+      builder: (context, fSnapshot) => StreamBuilder<Map<String, Object?>>(
+        stream: Rx.combineLatest2(
+          widget._controller.getStream(),
+          fSnapshot.data!,
+          (value, courses) => {
+            "value": value,
+            "courses": courses,
           },
+        ),
+        builder: (context, sSnapshot) => FormField<Course>(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: _validate,
+          initialValue: sSnapshot.data?['value'] as Course?,
+          builder: (state) => DropdownMenu<Course>(
+            label: Text(widget.label),
+            requestFocusOnTap: false,
+            expandedInsets: EdgeInsets.zero,
+            trailingIcon: _getTrailingIcon(sSnapshot.data?['value'] as Course?),
+            errorText: state.errorText,
+            initialSelection: sSnapshot.data?['value'] as Course?,
+            dropdownMenuEntries: _buildDropdownMenuEntries(
+              sSnapshot.data?["courses"] as List<Course>?,
+            ),
+            onSelected: (value) {
+              state.didChange(value);
+              widget._controller.value = value;
+            },
+          ),
         ),
       ),
     );

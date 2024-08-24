@@ -1,6 +1,7 @@
 import 'package:calendar_v2/assignments/assignment_views/shared/assignment_list_widget/assignment_list_widget.dart';
 import 'package:calendar_v2/assignments/assignment_views/assignment_prioritizer/assignment_prioritizer_presenter.dart';
 import 'package:calendar_v2/assignments/assignment_views/shared/assignment_scaffold/assignment_scaffold.dart';
+import 'package:calendar_v2/server/models/assignment.dart';
 import 'package:flutter/material.dart';
 
 class AssignmentPrioritizerView extends StatelessWidget {
@@ -25,8 +26,11 @@ class AssignmentPrioritizerView extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: AssignmentListWidget(
-              assignmentStream: _presenter.getAssignmentsSortedByPriority(),
+            child: FutureBuilder<Stream<List<Assignment>>>(
+              future: _presenter.getAssignmentsSortedByPriority(),
+              builder: (context, snapshot) => AssignmentListWidget(
+                assignmentStream: snapshot.data,
+              ),
             ),
           ),
         ],

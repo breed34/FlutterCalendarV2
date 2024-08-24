@@ -27,10 +27,6 @@ class EditAssignmentDialog extends StatelessWidget {
       text: initialAssignment.name,
     );
 
-    _courseController = DropdownController<Course>(
-      value: _presenter.getCourseById(initialAssignment.courseId),
-    );
-
     _dueDateController = TextEditingController(
       text: _presenter.getDueDateText(initialAssignment.dueDate),
     );
@@ -54,49 +50,57 @@ class EditAssignmentDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseDialog(
-      title: 'Update Assignment',
-      content: Column(
-        children: [
-          AssignmentFormWidget(
-            formKey: _formKey,
-            nameController: _nameController,
-            courseController: _courseController,
-            dueDateController: _dueDateController,
-            colorController: _colorController,
-            workLeftController: _workLeftController,
-            percentOfGradeController: _percentOfGradeController,
-            showCompleted: true,
-            completedController: _completedController,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: FilledButton(
-                  onPressed: () {
-                    _validateFormAndUpdateAssignment(context);
-                  },
-                  child: const Text('Update'),
+    return FutureBuilder<Course>(
+        future: _presenter.getCourseById(initialAssignment.courseId),
+        builder: (context, snapshot) {
+          _courseController = DropdownController<Course>(
+            value: snapshot.data,
+          );
+
+          return BaseDialog(
+            title: 'Update Assignment',
+            content: Column(
+              children: [
+                AssignmentFormWidget(
+                  formKey: _formKey,
+                  nameController: _nameController,
+                  courseController: _courseController,
+                  dueDateController: _dueDateController,
+                  colorController: _colorController,
+                  workLeftController: _workLeftController,
+                  percentOfGradeController: _percentOfGradeController,
+                  showCompleted: true,
+                  completedController: _completedController,
                 ),
-              ),
-              const SizedBox(width: 12.0),
-              Expanded(
-                child: FilledButton(
-                  onPressed: () {
-                    _deleteAssignment();
-                    Navigator.pop(context);
-                  },
-                  style: FilledButton.styleFrom(
-                    backgroundColor: Colors.red[600],
-                  ),
-                  child: const Text('Delete'),
+                Row(
+                  children: [
+                    Expanded(
+                      child: FilledButton(
+                        onPressed: () {
+                          _validateFormAndUpdateAssignment(context);
+                        },
+                        child: const Text('Update'),
+                      ),
+                    ),
+                    const SizedBox(width: 12.0),
+                    Expanded(
+                      child: FilledButton(
+                        onPressed: () {
+                          _deleteAssignment();
+                          Navigator.pop(context);
+                        },
+                        style: FilledButton.styleFrom(
+                          backgroundColor: Colors.red[600],
+                        ),
+                        child: const Text('Delete'),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
+              ],
+            ),
+          );
+        });
   }
 
   void _validateFormAndUpdateAssignment(BuildContext context) {

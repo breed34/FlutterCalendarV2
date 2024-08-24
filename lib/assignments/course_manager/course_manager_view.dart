@@ -20,13 +20,16 @@ class CourseManagerView extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: StreamBuilder<List<Course>>(
-                stream: _presenter.getCourses(),
-                builder: (context, snapshot) {
-                  return ListView(
-                    children: _buildCourseTiles(context, snapshot.data),
-                  );
-                },
+              child: FutureBuilder<Stream<List<Course>>>(
+                future: _presenter.getCourses(),
+                builder: (context, fSnapshot) => StreamBuilder<List<Course>>(
+                  stream: fSnapshot.data,
+                  builder: (context, sSnapshot) {
+                    return ListView(
+                      children: _buildCourseTiles(context, sSnapshot.data),
+                    );
+                  },
+                ),
               ),
             ),
             FilledButton(

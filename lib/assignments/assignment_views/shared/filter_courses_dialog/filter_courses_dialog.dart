@@ -17,10 +17,13 @@ class _FilterCoursesDialogState extends State<FilterCoursesDialog> {
   Widget build(BuildContext context) {
     return BaseDialog(
       title: 'Filter Courses',
-      content: StreamBuilder(
-        stream: _presenter.getFilterCourses(),
-        builder: (context, snapshot) => Column(
-          children: _buildListChildren(snapshot.data),
+      content: FutureBuilder<Stream<List<FilterCourse>>>(
+        future: _presenter.getFilterCourses(),
+        builder: (context, fSnapShot) => StreamBuilder(
+          stream: fSnapShot.data,
+          builder: (context, sSnapshot) => Column(
+            children: _buildListChildren(sSnapshot.data),
+          ),
         ),
       ),
     );
