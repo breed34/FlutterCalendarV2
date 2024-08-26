@@ -59,15 +59,20 @@ class _CalendarDayWidgetState extends State<CalendarDayWidget> {
               ),
               child: FutureBuilder<Stream<List<Assignment>>>(
                 future: _presenter.getAssignments(),
-                builder: (context, fSnapshot) =>
-                    StreamBuilder<List<Assignment>>(
-                  stream: fSnapshot.data,
-                  builder: (context, sSnapshot) => ListView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    clipBehavior: Clip.hardEdge,
-                    children: _getAssignmentWidgets(sSnapshot.data),
-                  ),
-                ),
+                builder: (context, fSnapshot) {
+                  if (fSnapshot.connectionState == ConnectionState.done) {
+                    return StreamBuilder<List<Assignment>>(
+                      stream: fSnapshot.data,
+                      builder: (context, sSnapshot) => ListView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        clipBehavior: Clip.hardEdge,
+                        children: _getAssignmentWidgets(sSnapshot.data),
+                      ),
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+                },
               ),
             ),
           ),

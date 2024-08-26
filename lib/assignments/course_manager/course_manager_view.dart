@@ -22,14 +22,20 @@ class CourseManagerView extends StatelessWidget {
             Expanded(
               child: FutureBuilder<Stream<List<Course>>>(
                 future: _presenter.getCourses(),
-                builder: (context, fSnapshot) => StreamBuilder<List<Course>>(
-                  stream: fSnapshot.data,
-                  builder: (context, sSnapshot) {
-                    return ListView(
-                      children: _buildCourseTiles(context, sSnapshot.data),
+                builder: (context, fSnapshot) {
+                  if (fSnapshot.connectionState == ConnectionState.done) {
+                    return StreamBuilder<List<Course>>(
+                      stream: fSnapshot.data,
+                      builder: (context, sSnapshot) {
+                        return ListView(
+                          children: _buildCourseTiles(context, sSnapshot.data),
+                        );
+                      },
                     );
-                  },
-                ),
+                  } else {
+                    return const SizedBox();
+                  }
+                },
               ),
             ),
             FilledButton(

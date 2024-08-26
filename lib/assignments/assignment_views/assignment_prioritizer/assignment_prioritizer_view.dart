@@ -28,9 +28,15 @@ class AssignmentPrioritizerView extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: FutureBuilder<Stream<List<Assignment>>>(
               future: _presenter.getAssignmentsSortedByPriority(),
-              builder: (context, snapshot) => AssignmentListWidget(
-                assignmentStream: snapshot.data,
-              ),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return AssignmentListWidget(
+                    assignmentStream: snapshot.data,
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              },
             ),
           ),
         ],

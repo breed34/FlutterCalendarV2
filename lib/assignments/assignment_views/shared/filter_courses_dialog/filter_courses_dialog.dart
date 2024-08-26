@@ -19,12 +19,18 @@ class _FilterCoursesDialogState extends State<FilterCoursesDialog> {
       title: 'Filter Courses',
       content: FutureBuilder<Stream<List<FilterCourse>>>(
         future: _presenter.getFilterCourses(),
-        builder: (context, fSnapShot) => StreamBuilder(
-          stream: fSnapShot.data,
-          builder: (context, sSnapshot) => Column(
-            children: _buildListChildren(sSnapshot.data),
-          ),
-        ),
+        builder: (context, fSnapshot) {
+          if (fSnapshot.connectionState == ConnectionState.done) {
+            return StreamBuilder(
+              stream: fSnapshot.data,
+              builder: (context, sSnapshot) => Column(
+                children: _buildListChildren(sSnapshot.data),
+              ),
+            );
+          } else {
+            return const SizedBox();
+          }
+        },
       ),
     );
   }

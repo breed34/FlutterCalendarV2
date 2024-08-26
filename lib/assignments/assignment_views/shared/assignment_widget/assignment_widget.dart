@@ -20,45 +20,51 @@ class _AssignmentWidgetState extends State<AssignmentWidget> {
   Widget build(BuildContext context) {
     return FutureBuilder<Stream<AssignmentColor>>(
       future: _presenter.getCourseDefaultColor(widget.assignment),
-      builder: (context, fSnapshot) => StreamBuilder<AssignmentColor>(
-        stream: fSnapshot.data,
-        builder: (context, sSnapshot) => Container(
-          constraints: BoxConstraints.expand(height: _scaled(16.0)),
-          margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 2),
-          padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 4),
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(5)),
-            color: _getAssignmentColor(),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  widget.assignment.name,
-                  style: TextStyle(
-                    fontSize: _scaled(10.0),
-                    overflow: TextOverflow.ellipsis,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+      builder: (context, fSnapshot) {
+        if (fSnapshot.connectionState == ConnectionState.done) {
+          return StreamBuilder<AssignmentColor>(
+            stream: fSnapshot.data,
+            builder: (context, sSnapshot) => Container(
+              constraints: BoxConstraints.expand(height: _scaled(16.0)),
+              margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 2),
+              padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 4),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(5)),
+                color: _getAssignmentColor(),
               ),
-              Icon(
-                size: _scaled(8.0),
-                Icons.circle,
-                color: sSnapshot.data?.color,
-                shadows: const [
-                  Shadow(
-                    color: Colors.white,
-                    blurRadius: 2.0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      widget.assignment.name,
+                      style: TextStyle(
+                        fontSize: _scaled(10.0),
+                        overflow: TextOverflow.ellipsis,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Icon(
+                    size: _scaled(8.0),
+                    Icons.circle,
+                    color: sSnapshot.data?.color,
+                    shadows: const [
+                      Shadow(
+                        color: Colors.white,
+                        blurRadius: 2.0,
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
     );
   }
 

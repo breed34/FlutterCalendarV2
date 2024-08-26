@@ -31,36 +31,43 @@ class _CourseDropdownWidgetState extends State<CourseDropdownWidget> {
   Widget build(BuildContext context) {
     return FutureBuilder<Stream<List<Course>>>(
       future: _presenter.getCourses(),
-      builder: (context, fSnapshot) => StreamBuilder<Map<String, Object?>>(
-        stream: Rx.combineLatest2(
-          widget._controller.getStream(),
-          fSnapshot.data!,
-          (value, courses) => {
-            "value": value,
-            "courses": courses,
-          },
-        ),
-        builder: (context, sSnapshot) => FormField<Course>(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: _validate,
-          initialValue: sSnapshot.data?['value'] as Course?,
-          builder: (state) => DropdownMenu<Course>(
-            label: Text(widget.label),
-            requestFocusOnTap: false,
-            expandedInsets: EdgeInsets.zero,
-            trailingIcon: _getTrailingIcon(sSnapshot.data?['value'] as Course?),
-            errorText: state.errorText,
-            initialSelection: sSnapshot.data?['value'] as Course?,
-            dropdownMenuEntries: _buildDropdownMenuEntries(
-              sSnapshot.data?["courses"] as List<Course>?,
+      builder: (context, fSnapshot) {
+        if (fSnapshot.connectionState == ConnectionState.done) {
+          return StreamBuilder<Map<String, Object?>>(
+            stream: Rx.combineLatest2(
+              widget._controller.getStream(),
+              fSnapshot.data!,
+              (value, courses) => {
+                "value": value,
+                "courses": courses,
+              },
             ),
-            onSelected: (value) {
-              state.didChange(value);
-              widget._controller.value = value;
-            },
-          ),
-        ),
-      ),
+            builder: (context, sSnapshot) => FormField<Course>(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: _validate,
+              initialValue: sSnapshot.data?['value'] as Course?,
+              builder: (state) => DropdownMenu<Course>(
+                label: Text(widget.label),
+                requestFocusOnTap: false,
+                expandedInsets: EdgeInsets.zero,
+                trailingIcon:
+                    _getTrailingIcon(sSnapshot.data?['value'] as Course?),
+                errorText: state.errorText,
+                initialSelection: sSnapshot.data?['value'] as Course?,
+                dropdownMenuEntries: _buildDropdownMenuEntries(
+                  sSnapshot.data?["courses"] as List<Course>?,
+                ),
+                onSelected: (value) {
+                  state.didChange(value);
+                  widget._controller.value = value;
+                },
+              ),
+            ),
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
     );
   }
 
