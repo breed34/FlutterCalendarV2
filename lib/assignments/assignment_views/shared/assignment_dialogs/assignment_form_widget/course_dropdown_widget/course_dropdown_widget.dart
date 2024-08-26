@@ -8,11 +8,13 @@ import 'package:rxdart/rxdart.dart';
 class CourseDropdownWidget extends StatefulWidget {
   final String label;
   final bool required;
+  final void Function(Course? selection)? onSelected;
   late final DropdownController<Course> _controller;
 
   CourseDropdownWidget({
     required this.label,
     this.required = false,
+    this.onSelected,
     controller,
     super.key,
   }) {
@@ -60,6 +62,9 @@ class _CourseDropdownWidgetState extends State<CourseDropdownWidget> {
                 onSelected: (value) {
                   state.didChange(value);
                   widget._controller.value = value;
+                  if (widget.onSelected != null) {
+                    widget.onSelected!(value);
+                  }
                 },
               ),
             ),

@@ -53,6 +53,7 @@ class AssignmentFormWidget extends StatelessWidget {
             label: 'Course',
             required: true,
             controller: courseController,
+            onSelected: _tryAutofillColorDropdown,
           ),
           SizedBox(height: _fieldSpacing),
           Row(
@@ -120,5 +121,11 @@ class AssignmentFormWidget extends StatelessWidget {
     }
 
     return [];
+  }
+
+  void _tryAutofillColorDropdown(Course? course) {
+    if (colorController.value == null && course != null) {
+      colorController.value = course.defaultAssignmentColor;
+    }
   }
 }
