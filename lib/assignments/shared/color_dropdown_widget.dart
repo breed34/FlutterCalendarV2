@@ -32,6 +32,7 @@ class _ColorDropdownWidgetState extends State<ColorDropdownWidget> {
         initialValue: snapshot.data,
         builder: (state) => DropdownMenu<AssignmentColor>(
           label: Text(widget.label),
+          menuHeight: 200.0,
           requestFocusOnTap: false,
           expandedInsets: EdgeInsets.zero,
           trailingIcon: _getTrailingIcon(snapshot.data),
@@ -61,15 +62,11 @@ class _ColorDropdownWidgetState extends State<ColorDropdownWidget> {
         .map(
           (c) => DropdownMenuEntry<AssignmentColor>(
             value: c,
-            label: _formatNameAsLabel(c.name),
+            label: c.displayName!,
             trailingIcon: _getTrailingIcon(c),
           ),
         )
         .toList();
-  }
-
-  String _formatNameAsLabel(String name) {
-    return name.replaceFirst(name[0], name[0].toUpperCase());
   }
 
   Widget? _getTrailingIcon(AssignmentColor? value) {
