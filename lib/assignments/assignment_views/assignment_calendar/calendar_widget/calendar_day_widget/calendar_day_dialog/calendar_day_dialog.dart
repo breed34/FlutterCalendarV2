@@ -16,22 +16,20 @@ class CalendarDayDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseDialog(
       title: _presenter.getFormattedDate(),
-      content: SizedBox(
-        width: double.maxFinite,
-        height: 300.0,
-        child: FutureBuilder<Stream<List<Assignment>>>(
-          future: _presenter.getAssignments(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return AssignmentListWidget(
+      content: FutureBuilder<Stream<List<Assignment>>>(
+        future: _presenter.getAssignments(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Expanded(
+              child: AssignmentListWidget(
                 assignmentStream: snapshot.data,
                 initialDueDate: day,
-              );
-            } else {
-              return const SizedBox();
-            }
-          },
-        ),
+              ),
+            );
+          } else {
+            return const SizedBox();
+          }
+        },
       ),
     );
   }

@@ -43,19 +43,22 @@ class _FilterCoursesDialogState extends State<FilterCoursesDialog> {
     return fCourses
         .map((c) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(c.course.name),
-                  Checkbox(
-                    activeColor: c.course.defaultAssignmentColor.color,
-                    value: c.show,
-                    onChanged: (value) {
-                      c.show = value!;
-                      _presenter.hideShowCourse(c);
-                    },
-                  ),
-                ],
+              child: SizedBox(
+                width: 160.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(c.course.name),
+                    Checkbox(
+                      activeColor: c.course.defaultAssignmentColor.color,
+                      value: c.show,
+                      onChanged: (value) {
+                        c.show = value!;
+                        _presenter.hideShowCourse(c);
+                      },
+                    ),
+                  ],
+                ),
               ),
             ))
         .toList();

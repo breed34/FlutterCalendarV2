@@ -12,15 +12,24 @@ class BaseDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(title),
-      contentPadding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
-      scrollable: true,
-      content: Column(
-        children: [
-          content,
-          const SizedBox(height: 8.0),
-        ],
+    return Dialog(
+      child: Container(
+        padding: const EdgeInsets.all(16.0),
+        constraints: const BoxConstraints(
+          maxWidth: 300.0,
+          maxHeight: 400.0,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(fontSize: 20),
+            ),
+            const SizedBox(height: 8.0),
+            content,
+          ],
+        ),
       ),
     );
   }
