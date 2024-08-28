@@ -13,13 +13,14 @@ Future main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  if (const String.fromEnvironment('env') == 'local') {
-    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-    FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
-  }
+  await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
 
   FirebaseUIAuth.configureProviders([
-    GoogleProvider(clientId: const String.fromEnvironment('googleClientId')),
+    GoogleProvider(
+      clientId:
+          "849856874232-1hj15qrpnbspgaavnoo0ttnul1nflglk.apps.googleusercontent.com",
+    ),
   ]);
 
   runApp(const App());
