@@ -13,8 +13,8 @@ Future main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-  FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
+  // await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  // FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
 
   FirebaseUIAuth.configureProviders([
     GoogleProvider(
