@@ -30,4 +30,7 @@ var theme = ThemeData(
   dialogTheme: const DialogTheme(
     backgroundColor: Colors.white,
   ),
+  progressIndicatorTheme: const ProgressIndicatorThemeData(
+    color: Colors.blue,
+  ),
 );

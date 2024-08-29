@@ -62,7 +62,9 @@ class _AssignmentScaffoldState extends State<AssignmentScaffold> {
           if (snapshot.connectionState == ConnectionState.done) {
             return widget.body;
           } else {
-            return const Text('Loading');
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
         },
       ),

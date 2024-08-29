@@ -48,7 +48,9 @@ class CourseManagerView extends StatelessWidget {
               ),
             );
           } else {
-            return const Text('Loading');
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           }
         },
       ),
