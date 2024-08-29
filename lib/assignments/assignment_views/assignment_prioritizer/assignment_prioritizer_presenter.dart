@@ -4,8 +4,8 @@ import 'package:calendar_v2/assignments/assignment_service.dart';
 class AssignmentPrioritizerPresenter {
   final AssignmentService _service = AssignmentService();
 
-  Future<Stream<List<Assignment>>> getAssignmentsSortedByPriority() async {
-    return (await _service.getFilteredAssignments()).map((ts) {
+  Stream<List<Assignment>> getAssignmentsSortedByPriority() {
+    return _service.getFilteredAssignments().map((ts) {
       List<Assignment> sortedAssignments = List.from(ts);
       sortedAssignments.sort(_sortByPriority);
       return sortedAssignments;

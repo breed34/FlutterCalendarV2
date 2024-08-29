@@ -1,3 +1,4 @@
+import 'package:calendar_v2/assignments/assignment_views/shared/assignment_scaffold/assignment_scaffold_presenter.dart';
 import 'package:calendar_v2/assignments/assignment_views/shared/filter_courses_dialog/filter_courses_dialog.dart';
 import 'package:calendar_v2/assignments/assignment_views/shared/assignment_scaffold/nav_drawer_widget/nav_drawer_widget.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,15 @@ class AssignmentScaffold extends StatefulWidget {
 }
 
 class _AssignmentScaffoldState extends State<AssignmentScaffold> {
+  final AssignmentScaffoldPresenter _presenter = AssignmentScaffoldPresenter();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  late final Future<void> _ensureCoursesLoaded;
+
+  @override
+  void initState() {
+    _ensureCoursesLoaded = _presenter.ensureCoursesLoaded();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +56,16 @@ class _AssignmentScaffoldState extends State<AssignmentScaffold> {
           const SizedBox(width: 8.0),
         ],
       ),
-      body: widget.body,
+      body: FutureBuilder(
+        future: _ensureCoursesLoaded,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return widget.body;
+          } else {
+            return const Text('Loading');
+          }
+        },
+      ),
       endDrawer: const NavDrawerWidget(),
     );
   }

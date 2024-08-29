@@ -15,10 +15,10 @@ class FilterCourse {
 class FilterCoursesDialogPresenter {
   final AssignmentService _service = AssignmentService();
 
-  Future<Stream<List<FilterCourse>>> getFilterCourses() async {
+  Stream<List<FilterCourse>> getFilterCourses() {
     return Rx.combineLatest2(
-        (await _service.getCourses()),
-        (await _service.getFilteredCourses()),
+        _service.getCourses(),
+        _service.getFilteredCourses(),
         (cs, fcs) => cs
             .map((c) => FilterCourse(course: c, show: fcs.contains(c)))
             .toList());

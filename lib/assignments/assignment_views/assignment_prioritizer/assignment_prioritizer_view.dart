@@ -22,24 +22,11 @@ class AssignmentPrioritizerView extends StatelessWidget {
           icon: const Icon(Icons.calendar_month_outlined),
         ),
       ],
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: FutureBuilder<Stream<List<Assignment>>>(
-              future: _presenter.getAssignmentsSortedByPriority(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return AssignmentListWidget(
-                    assignmentStream: snapshot.data,
-                  );
-                } else {
-                  return const SizedBox();
-                }
-              },
-            ),
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: AssignmentListWidget(
+          assignmentStream: _presenter.getAssignmentsSortedByPriority(),
+        ),
       ),
     );
   }

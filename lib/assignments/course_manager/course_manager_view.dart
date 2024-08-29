@@ -6,8 +6,11 @@ import 'package:flutter/material.dart';
 
 class CourseManagerView extends StatelessWidget {
   final CourseManagerPresenter _presenter = CourseManagerPresenter();
+  late final Future<void> _ensureCoursesLoaded;
 
-  CourseManagerView({super.key});
+  CourseManagerView({super.key}) {
+    _ensureCoursesLoaded = _presenter.ensureCoursesLoaded();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,38 +18,39 @@ class CourseManagerView extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Manage Courses"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 16.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: FutureBuilder<Stream<List<Course>>>(
-                future: _presenter.getCourses(),
-                builder: (context, fSnapshot) {
-                  if (fSnapshot.connectionState == ConnectionState.done) {
-                    return StreamBuilder<List<Course>>(
-                      stream: fSnapshot.data,
+      body: FutureBuilder(
+        future: _ensureCoursesLoaded,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(0, 8.0, 0, 16.0),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: StreamBuilder<List<Course>>(
+                      stream: _presenter.getCourses(),
                       builder: (context, sSnapshot) {
                         return ListView(
                           children: _buildCourseTiles(context, sSnapshot.data),
                         );
                       },
-                    );
-                  } else {
-                    return const SizedBox();
-                  }
-                },
+                    ),
+                  ),
+                  FilledButton(
+                    onPressed: () {
+                      _openAddCourseDialog(context);
+                    },
+                    style: FilledButton.styleFrom(
+                        backgroundColor: Colors.grey[600]),
+                    child: const Text('Add Course'),
+                  ),
+                ],
               ),
-            ),
-            FilledButton(
-              onPressed: () {
-                _openAddCourseDialog(context);
-              },
-              style: FilledButton.styleFrom(backgroundColor: Colors.grey[600]),
-              child: const Text('Add Course'),
-            ),
-          ],
-        ),
+            );
+          } else {
+            return const Text('Loading');
+          }
+        },
       ),
     );
   }

@@ -54,12 +54,8 @@ class AssignmentService {
     ));
   }
 
-  Future<Stream<List<Assignment>>> getFilteredAssignments() async {
-    if (!_courses.hasValue) {
-      await _loadCoursesFromDB();
-    }
-
-    return (await getFilteredCourses())
+  Stream<List<Assignment>> getFilteredAssignments() {
+    return getFilteredCourses()
         .map((cs) => cs.expand((c) => c.assignments).toList());
   }
 
@@ -145,27 +141,15 @@ class AssignmentService {
     ));
   }
 
-  Future<Course> getCourseById(String courseId) async {
-    if (!_courses.hasValue) {
-      await _loadCoursesFromDB();
-    }
-
+  Course getCourseById(String courseId) {
     return _courses.value.firstWhere((c) => c.id == courseId);
   }
 
-  Future<Stream<List<Course>>> getCourses() async {
-    if (!_courses.hasValue) {
-      await _loadCoursesFromDB();
-    }
-
+  Stream<List<Course>> getCourses() {
     return _courses.stream;
   }
 
-  Future<Stream<List<Course>>> getFilteredCourses() async {
-    if (!_courses.hasValue) {
-      await _loadCoursesFromDB();
-    }
-
+  Stream<List<Course>> getFilteredCourses() {
     return Rx.combineLatest2(_courses.stream, _courseIdsToHide,
         (cs, cids) => cs.where((c) => !cids.contains(c.id)).toList());
   }
@@ -214,8 +198,10 @@ class AssignmentService {
     ));
   }
 
-  Future<void> _loadCoursesFromDB() async {
-    var courses = await _server.getCourses(_auth.currentUser!.uid);
-    _courses.sink.add(courses);
+  Future<void> ensureCoursesLoaded() async {
+    if (!_courses.hasValue) {
+      var courses = await _server.getCourses(_auth.currentUser!.uid);
+      _courses.sink.add(courses);
+    }
   }
 }

@@ -57,22 +57,13 @@ class _CalendarDayWidgetState extends State<CalendarDayWidget> {
                   stops: const [0.0, 0.1],
                 ),
               ),
-              child: FutureBuilder<Stream<List<Assignment>>>(
-                future: _presenter.getAssignments(),
-                builder: (context, fSnapshot) {
-                  if (fSnapshot.connectionState == ConnectionState.done) {
-                    return StreamBuilder<List<Assignment>>(
-                      stream: fSnapshot.data,
-                      builder: (context, sSnapshot) => ListView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        clipBehavior: Clip.hardEdge,
-                        children: _getAssignmentWidgets(sSnapshot.data),
-                      ),
-                    );
-                  } else {
-                    return const SizedBox();
-                  }
-                },
+              child: StreamBuilder<List<Assignment>>(
+                stream: _presenter.getAssignments(),
+                builder: (context, sSnapshot) => ListView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  clipBehavior: Clip.hardEdge,
+                  children: _getAssignmentWidgets(sSnapshot.data),
+                ),
               ),
             ),
           ),
