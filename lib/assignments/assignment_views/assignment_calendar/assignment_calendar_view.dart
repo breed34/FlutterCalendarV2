@@ -11,8 +11,8 @@ class AssignmentCalendarView extends StatefulWidget {
 }
 
 class _AssignmentCalendarViewState extends State<AssignmentCalendarView> {
-  final Duration _pageChangeDuration = const Duration(milliseconds: 300);
-  final Curve _pageChangeCurve = Curves.easeInOutCubic;
+  final Duration _pageChangeDuration = const Duration(milliseconds: 800);
+  final Curve _pageChangeCurve = Curves.easeOutCubic;
   final AssignmentCalendarPresenter _presenter = AssignmentCalendarPresenter();
   late final PageController _pageController;
 
