@@ -38,10 +38,6 @@ enum AssignmentColor {
     displayName: 'Forest Green',
     color: Color.fromARGB(255, 36, 113, 39),
   ),
-  lightYellow(
-    displayName: 'Light Yellow',
-    color: Color.fromARGB(255, 253, 240, 58),
-  ),
   yellow(
     displayName: 'Yellow',
     color: Color.fromARGB(255, 237, 219, 50),

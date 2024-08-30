@@ -14,7 +14,7 @@ class Server {
       id: request.courseId,
       name: request.name,
       defaultAssignmentColor: request.defaultAssignmentColor,
-      assignments: [],
+      assignments: request.assignments ?? [],
     );
 
     _db

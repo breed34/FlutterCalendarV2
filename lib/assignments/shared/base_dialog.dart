@@ -12,23 +12,35 @@ class BaseDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      child: Container(
-        padding: const EdgeInsets.all(16.0),
-        constraints: const BoxConstraints(
-          maxWidth: 400.0,
-          maxHeight: 400.0,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(fontSize: 20),
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          Navigator.of(context).pop();
+        },
+        child: GestureDetector(
+          onTap: () {},
+          child: Dialog(
+            child: Container(
+              padding: const EdgeInsets.all(16.0),
+              constraints: const BoxConstraints(
+                maxWidth: 400.0,
+                maxHeight: 400.0,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                  const SizedBox(height: 8.0),
+                  content,
+                ],
+              ),
             ),
-            const SizedBox(height: 8.0),
-            content,
-          ],
+          ),
         ),
       ),
     );

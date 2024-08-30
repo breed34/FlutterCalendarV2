@@ -70,7 +70,7 @@ class CourseManagerView extends StatelessWidget {
   void _openUploadDialog(BuildContext context) async {
     await showDialog(
       context: context,
-      builder: (BuildContext buildContext) => const FileUploadDialog(),
+      builder: (BuildContext buildContext) => FileUploadDialog(),
     );
   }
 

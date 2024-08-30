@@ -26,6 +26,9 @@ var theme = ThemeData(
       border: OutlineInputBorder(),
       isDense: true,
     ),
+    menuStyle: MenuStyle(
+      surfaceTintColor: MaterialStatePropertyAll(Colors.transparent),
+    ),
   ),
   dialogTheme: const DialogTheme(
     backgroundColor: Colors.white,

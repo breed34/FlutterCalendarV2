@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:calendar_v2/assignments/shared/course_csv_parser.dart';
 import 'package:calendar_v2/server/dtos/create_course_request.dart';
 import 'package:calendar_v2/server/dtos/delete_course_request.dart';
 import 'package:calendar_v2/server/dtos/update_course_request.dart';
@@ -138,6 +141,29 @@ class AssignmentService {
       courseId: courseId,
       name: name,
       defaultAssignmentColor: defaultAssignmentColor,
+    ));
+  }
+
+  void uploadCourse(
+    Uint8List fileContents,
+    AssignmentColor defaultAssignmentColor,
+  ) {
+    List<Course> courses = List.from(_courses.value);
+    String courseId = _uuid.v4();
+    Course course = CourseCSVParser.parse(
+      fileContents,
+      defaultColor: defaultAssignmentColor,
+      courseId: courseId,
+    );
+
+    courses.add(course);
+    _courses.sink.add(courses);
+    _server.createCourse(CreateCourseRequest(
+      userId: _auth.currentUser!.uid,
+      courseId: courseId,
+      name: course.name,
+      defaultAssignmentColor: defaultAssignmentColor,
+      assignments: course.assignments,
     ));
   }
 

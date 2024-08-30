@@ -46,6 +46,7 @@ dependencies:
   firebase_ui_oauth_google: ^1.3.3
   cloud_firestore: ^5.2.1
   widget_zoom: ^0.0.4
+  file_picker: ^8.0.5
 
 dev_dependencies:
   flutter_test:
