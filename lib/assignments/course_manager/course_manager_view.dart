@@ -1,3 +1,4 @@
+import 'package:calendar_v2/assignments/course_manager/dialogs/file_upload_dialog/file_upload_dialog.dart';
 import 'package:calendar_v2/server/models/course.dart';
 import 'package:calendar_v2/assignments/course_manager/dialogs/add_course_dialog/add_course_dialog.dart';
 import 'package:calendar_v2/assignments/course_manager/course_manager_presenter.dart';
@@ -17,6 +18,15 @@ class CourseManagerView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Manage Courses"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              _openUploadDialog(context);
+            },
+            icon: const Icon(Icons.upload_outlined),
+          ),
+          const SizedBox(width: 8.0),
+        ],
       ),
       body: FutureBuilder(
         future: _ensureCoursesLoaded,
@@ -54,6 +64,13 @@ class CourseManagerView extends StatelessWidget {
           }
         },
       ),
+    );
+  }
+
+  void _openUploadDialog(BuildContext context) async {
+    await showDialog(
+      context: context,
+      builder: (BuildContext buildContext) => const FileUploadDialog(),
     );
   }
 
