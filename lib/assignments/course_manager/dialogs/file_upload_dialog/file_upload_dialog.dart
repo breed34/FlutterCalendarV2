@@ -5,7 +5,6 @@ import 'package:calendar_v2/assignments/shared/base_dialog.dart';
 import 'package:calendar_v2/assignments/shared/base_dropdown.dart';
 import 'package:calendar_v2/assignments/shared/color_dropdown_widget.dart';
 import 'package:calendar_v2/assignments/shared/course_csv_parser.dart';
-import 'package:calendar_v2/server/dtos/create_course_request.dart';
 import 'package:calendar_v2/server/models/enums.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';

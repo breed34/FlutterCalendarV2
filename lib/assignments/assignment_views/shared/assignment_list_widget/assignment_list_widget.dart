@@ -44,13 +44,16 @@ class AssignmentListWidget extends StatelessWidget {
       BuildContext context, List<Assignment>? assignments) {
     if (assignments != null && assignments.isNotEmpty) {
       return assignments.map((assignment) {
-        return GestureDetector(
-          onTap: () {
-            _openEditAssignmentDialog(context, assignment);
-          },
-          child: AssignmentWidget(
-            assignment,
-            scale: 1.5,
+        return MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: () {
+              _openEditAssignmentDialog(context, assignment);
+            },
+            child: AssignmentWidget(
+              assignment,
+              scale: 1.5,
+            ),
           ),
         );
       }).toList();

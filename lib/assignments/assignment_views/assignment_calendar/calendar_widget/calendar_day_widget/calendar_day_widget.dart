@@ -31,43 +31,46 @@ class _CalendarDayWidgetState extends State<CalendarDayWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _showCalendarDayDialog,
-      child: Column(
-        children: [
-          Container(
-            width: 20,
-            height: 20,
-            margin: const EdgeInsets.symmetric(vertical: 2),
-            alignment: Alignment.center,
-            decoration: _getNumberDecoration(),
-            child: Text(
-              widget.day.day.toString(),
-              style: _getNumberTextStyle(),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Expanded(
-            child: Container(
-              foregroundDecoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.white, Colors.white.withOpacity(0)],
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  stops: const [0.0, 0.1],
-                ),
-              ),
-              child: StreamBuilder<List<Assignment>>(
-                stream: _presenter.getAssignments(),
-                builder: (context, sSnapshot) => ListView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  clipBehavior: Clip.hardEdge,
-                  children: _getAssignmentWidgets(sSnapshot.data),
-                ),
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: _showCalendarDayDialog,
+        child: Column(
+          children: [
+            Container(
+              width: 20,
+              height: 20,
+              margin: const EdgeInsets.symmetric(vertical: 2),
+              alignment: Alignment.center,
+              decoration: _getNumberDecoration(),
+              child: Text(
+                widget.day.day.toString(),
+                style: _getNumberTextStyle(),
+                textAlign: TextAlign.center,
               ),
             ),
-          ),
-        ],
+            Expanded(
+              child: Container(
+                foregroundDecoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Colors.white, Colors.white.withOpacity(0)],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    stops: const [0.0, 0.1],
+                  ),
+                ),
+                child: StreamBuilder<List<Assignment>>(
+                  stream: _presenter.getAssignments(),
+                  builder: (context, sSnapshot) => ListView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    clipBehavior: Clip.hardEdge,
+                    children: _getAssignmentWidgets(sSnapshot.data),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
