@@ -6,6 +6,7 @@ import 'package:calendar_v2/assignments/shared/base_dropdown.dart';
 import 'package:calendar_v2/assignments/shared/color_dropdown_widget.dart';
 import 'package:calendar_v2/assignments/shared/course_csv_parser.dart';
 import 'package:calendar_v2/server/models/enums.dart';
+import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
@@ -68,9 +69,12 @@ class _FileUploadDialogState extends State<FileUploadDialog> {
                       ),
                     ],
                   ),
-                  child: WidgetZoom(
-                    heroAnimationTag: 'upload_tag',
-                    zoomWidget: Image.asset('sample_course_upload.png'),
+                  child: MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: WidgetZoom(
+                      heroAnimationTag: 'upload_tag',
+                      zoomWidget: Image.asset('images/sample_course_upload.png'),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16.0),
@@ -126,7 +130,7 @@ class _FileUploadDialogState extends State<FileUploadDialog> {
   }
 
   Future<void> _pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePickerWeb.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['csv'],
     );
