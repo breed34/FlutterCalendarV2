@@ -26,7 +26,7 @@ class BaseDialog extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               constraints: const BoxConstraints(
                 maxWidth: 400.0,
-                maxHeight: 400.0,
+                maxHeight: 600.0,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
