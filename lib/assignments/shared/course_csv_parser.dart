@@ -34,8 +34,12 @@ class CourseCSVParser {
             .map((e) => MapEntry(e.$2.toLowerCase().trim(), e.$1)),
       );
 
-      List<List<String>> bodyLines =
-          lines.sublist(1, lines.length - 1).map((x) => x.split(',')).toList();
+      List<List<String>> bodyLines = lines
+          .sublist(1)
+          .map((x) => x.split(','))
+          .where((x) => x.length >= 4)
+          .toList();
+
       String courseName = bodyLines[0][headerIndexMap[_courseNameHeader]!];
       List<Assignment> assignments = bodyLines
           .map((x) => Assignment(
