@@ -7,7 +7,7 @@ class CalendarWidgetPresenter {
   CalendarWidgetPresenter({required this.monthFirstDay});
 
   List<String> getAbbreviatedDays() {
-    var currDay = _lastMonday(monthFirstDay);
+    var currDay = _lastMonday(monthFirstDay).toUtc();
     List<String> abbreviatedDays = [];
     for (int i = 0; i < DateTime.daysPerWeek; i++) {
       abbreviatedDays.add(DateFormat.E().format(currDay));
@@ -18,7 +18,7 @@ class CalendarWidgetPresenter {
   }
 
   List<List<DateTime>> getCellDays() {
-    var currDay = _lastMonday(monthFirstDay);
+    var currDay = _lastMonday(monthFirstDay).toUtc();
     List<List<DateTime>> grid = [];
     for (int i = 0; i < numCalendarRows; i++) {
       grid.add([]);
@@ -32,7 +32,7 @@ class CalendarWidgetPresenter {
   }
 
   bool isToday(DateTime day) {
-    var today = DateTime.now();
+    var today = DateTime.now().toUtc();
     return day.month == today.month &&
         day.year == today.year &&
         day.day == today.day;
@@ -43,7 +43,7 @@ class CalendarWidgetPresenter {
   }
 
   DateTime _lastMonday(DateTime day) {
-    var currDay = day;
+    var currDay = day.toUtc();
     while (currDay.weekday != DateTime.monday) {
       currDay = currDay.subtract(const Duration(days: 1));
     }
