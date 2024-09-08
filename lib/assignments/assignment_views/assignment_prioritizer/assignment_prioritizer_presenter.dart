@@ -7,12 +7,12 @@ class AssignmentPrioritizerPresenter {
   Stream<List<Assignment>> getAssignmentsSortedByPriority() {
     return _service.getFilteredAssignments().map((ts) {
       List<Assignment> sortedAssignments = List.from(ts);
-      sortedAssignments.sort(_sortByPriority);
+      sortedAssignments.sort(_sortByPriorityDesc);
       return sortedAssignments;
     });
   }
 
-  int _sortByPriority(Assignment a1, Assignment a2) {
+  int _sortByPriorityDesc(Assignment a1, Assignment a2) {
     var comp = _getAssignmentPriority(a2) - _getAssignmentPriority(a1);
 
     if (comp < 0) {
@@ -25,13 +25,12 @@ class AssignmentPrioritizerPresenter {
   }
 
   double _getAssignmentPriority(Assignment assignment) {
-    return assignment.workRemaining /
-        _daysLeft(assignment.dueDate) *
-        assignment.percentOfGrade;
+    return (36500 - _daysLeft(assignment.dueDate)) *
+        (assignment.isComplete ? 0 : 1);
   }
 
   double _daysLeft(DateTime dueDate) {
     var days = (dueDate.difference(DateTime.now())).inDays;
-    return days > 0 ? days.toDouble() : 0.15;
+    return days.toDouble();
   }
 }
