@@ -32,7 +32,7 @@ class CalendarWidgetPresenter {
   }
 
   bool isToday(DateTime day) {
-    var today = DateTime.now().toUtc();
+    var today = DateTime.now();
     return day.month == today.month &&
         day.year == today.year &&
         day.day == today.day;
