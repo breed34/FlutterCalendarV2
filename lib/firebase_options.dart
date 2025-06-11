@@ -21,7 +21,10 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        return android;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for android - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.iOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for ios - '
@@ -50,20 +53,13 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAjYVcXrF-dxMcEBCk0aHQVsl8-fpMveXY',
-    appId: '1:849856874232:web:0ee127ebfea2525dd21d0d',
-    messagingSenderId: '849856874232',
-    projectId: 'calendar-90df6',
-    authDomain: 'calendar-90df6.firebaseapp.com',
-    storageBucket: 'calendar-90df6.appspot.com',
-    measurementId: 'G-HPLTZNVLQD',
+    apiKey: 'AIzaSyDckTz5VkxxoysXS_Aw8QlQpTVnlXXL51k',
+    appId: '1:394615931323:web:4f050ec1123ed618aa449e',
+    messagingSenderId: '394615931323',
+    projectId: 'calendar-demo-b86b3',
+    authDomain: 'calendar-demo-b86b3.firebaseapp.com',
+    storageBucket: 'calendar-demo-b86b3.firebasestorage.app',
+    measurementId: 'G-3DKMXYGQW6',
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCZmAaZSHNPywkDTE6J7t7LLXh_gi6lefI',
-    appId: '1:849856874232:android:3bdbae0e6a65c5c7d21d0d',
-    messagingSenderId: '849856874232',
-    projectId: 'calendar-90df6',
-    storageBucket: 'calendar-90df6.appspot.com',
-  );
 }

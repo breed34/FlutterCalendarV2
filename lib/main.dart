@@ -17,10 +17,7 @@ Future main() async {
   // FirebaseFirestore.instance.useFirestoreEmulator('localhost', 8080);
 
   FirebaseUIAuth.configureProviders([
-    GoogleProvider(
-      clientId:
-          "849856874232-1hj15qrpnbspgaavnoo0ttnul1nflglk.apps.googleusercontent.com",
-    ),
+    EmailAuthProvider(),
   ]);
 
   runApp(const App());
