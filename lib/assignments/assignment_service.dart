@@ -126,7 +126,7 @@ class AssignmentService {
   }
 
   void createCourse(String name, AssignmentColor defaultAssignmentColor) {
-    List<Course> courses = List.from(_courses.value);
+    List<Course> courses = List.from(_courses.valueOrNull ?? []);
     String courseId = _uuid.v4();
     courses.add(Course(
       id: courseId,

@@ -32,7 +32,8 @@ class UserHeaderWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  FirebaseAuth.instance.currentUser!.displayName!,
+                  FirebaseAuth.instance.currentUser!.displayName ??
+                      FirebaseAuth.instance.currentUser!.email!,
                   style: const TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
